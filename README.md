@@ -4,15 +4,15 @@
 
 ```
 cd frontend
-npm install
-npm start
+npm i
+npm run dev
 ```
 
 ## Backend
 
 ```
 cd backend
-npm install
+npm i
 npm run dev
 ```
 

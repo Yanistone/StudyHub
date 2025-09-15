@@ -2,10 +2,12 @@ import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import Navbar from "./Navbar.jsx";
 import Sidebar from "./Sidebar.jsx";
+import useIsMobile from "../hooks/useIsMobile.js";
 
 export default function Layout({ children }) {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
   const location = useLocation();
+  const isMobile = useIsMobile();
 
   // Fermer la sidebar lors d'un changement de route (pratique sur mobile)
   useEffect(() => {
@@ -195,7 +197,11 @@ body {
       {/* CSS injecté dans le composant */}
       <style>{styles}</style>
 
-      <Navbar onToggleSidebar={toggleSidebar} />
+      <Navbar
+        onToggleSidebar={toggleSidebar}
+        isSidebarOpen={isSidebarOpen}
+        isMobile={isMobile}
+      />
 
       {/* Overlay mobile */}
       <div

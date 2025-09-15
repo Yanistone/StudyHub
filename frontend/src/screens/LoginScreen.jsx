@@ -166,14 +166,6 @@ export default function LoginScreen() {
               ? "Se connecter"
               : "Créer le compte"}
           </button>
-
-          <button
-            type="button"
-            onClick={useDemoToken}
-            style={styles.secondaryBtn}
-          >
-            Mode démo (sans API)
-          </button>
         </form>
 
         <div style={styles.meta}>

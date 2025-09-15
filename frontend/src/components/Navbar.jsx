@@ -1,15 +1,18 @@
 import { Link } from "react-router-dom";
 
-export default function Navbar({ onToggleSidebar }) {
+export default function Navbar({ onToggleSidebar, isSidebarOpen, isMobile }) {
   return (
     <header className="sh-navbar">
-      <button
-        aria-label="Ouvrir le menu"
-        className="sh-burger"
-        onClick={onToggleSidebar}
-      >
-        ☰
-      </button>
+      {isMobile && (
+        <button
+          aria-label="Ouvrir le menu"
+          className="sh-burger"
+          onClick={onToggleSidebar}
+          style={{ display: isSidebarOpen ? "none" : "block" }}
+        >
+          ☰
+        </button>
+      )}
 
       <div className="sh-brand">
         <Link to="/">StudyHub</Link>

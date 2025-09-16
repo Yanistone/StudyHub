@@ -37,7 +37,7 @@ body {
   margin: 0;
   background: #0b1022;
   color: var(--sh-text);
-  font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji", sans-serif;
+  font-family: Poppins, sans-serif;
 }
 
 /* NAVBAR */
@@ -45,8 +45,8 @@ body {
   position: fixed;
   top: 0; left: 0; right: 0;
   height: var(--sh-navbar-h);
-  background: var(--sh-bg);
-  border-bottom: 1px solid var(--sh-border);
+  background: #467599;
+  border-bottom: 2px solid #375974;
   display: flex;
   align-items: center;
   gap: 12px;
@@ -67,6 +67,8 @@ body {
 .sh-brand a {
   font-weight: 700;
   letter-spacing: .2px;
+  font-size: 20px;
+  color: #fff;  
 }
 
 .sh-nav-right {
@@ -77,12 +79,8 @@ body {
 
 .sh-link {
   padding: 6px 10px;
-  border-radius: 8px;
-  border: 1px solid transparent;
-}
-.sh-link:hover {
-  border-color: var(--sh-border);
-  background: rgba(255,255,255,0.03);
+  color: #fff;
+  font-weight: bold;
 }
 
 /* SIDEBAR */
@@ -92,8 +90,8 @@ body {
   left: 0;
   width: var(--sh-sidebar-w);
   bottom: 0;
-  background: var(--sh-bg-2);
-  border-right: 1px solid var(--sh-border);
+  background: #467599;
+  border-right: 2px solid #375974;
   padding: 12px;
   overflow-y: auto;
   z-index: 40;
@@ -110,8 +108,9 @@ body {
 .sh-sidebar-title {
   font-size: 12px;
   text-transform: uppercase;
-  color: var(--sh-muted);
+  color: #fff;
   letter-spacing: .8px;
+  font-weight: bold;
 }
 .sh-close {
   display: none;
@@ -137,20 +136,21 @@ body {
   border: 1px solid transparent;
 }
 .sh-item:hover {
-  background: rgba(255,255,255,0.04);
-  border-color: var(--sh-border);
+  background: #37597476;
+  border-color: #fff;
 }
 .sh-item.active {
-  background: rgba(59,130,246,0.15);
-  border-color: rgba(59,130,246,0.35);
-  color: #dbeafe;
+  background: #375974;
+  border-color: #fff;
+  color: #fff;
+  font-weight: bold;
 }
 
 /* CONTENT */
 .sh-content {
-  padding-top: var(--sh-navbar-h);
   padding-left: var(--sh-sidebar-w);
   min-height: 100vh;
+  background: #fff;
 }
 .sh-content-inner {
   max-width: 1100px;

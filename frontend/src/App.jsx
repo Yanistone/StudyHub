@@ -12,7 +12,7 @@ import AdminDashboardScreen from "./screens/AdminDashboardScreen.jsx";
 
 function AppShell({ children }) {
   return (
-    <div style={{ maxWidth: 1100, margin: "0 auto", padding: 16 }}>
+    <div style={{ maxWidth: 1100, margin: "0 auto", background: "#fff" }}>
       <main>{children}</main>
     </div>
   );

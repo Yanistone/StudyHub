@@ -40,7 +40,7 @@ export default function Navbar({ onToggleSidebar, isSidebarOpen, isMobile }) {
                 alignItems: "center" 
               }}
             >
-              <IoPerson size={24} color="#e5e7eb" />
+              <IoPerson size={24} color="#fff" />
             </button>
           </>
         ) : (

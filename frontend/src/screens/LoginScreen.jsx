@@ -1,8 +1,6 @@
-// src/screens/LoginScreen.jsx
 import { useEffect, useMemo, useState } from "react";
 import { useLocation, useNavigate, Link } from "react-router-dom";
-
-const API_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:4000";
+import { login, register } from "../api/auth";
 
 export default function LoginScreen() {
   const navigate = useNavigate();
@@ -23,51 +21,26 @@ export default function LoginScreen() {
 
   useEffect(() => {
     document.title =
-      mode === "login" ? "StudyHub — Connexion" : "StudyHub — Inscription";
+      mode === "login" ? "StudyHub | Connexion" : "StudyHub | Inscription";
   }, [mode]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
     setLoading(true);
-
     try {
-      const endpoint = mode === "login" ? "/auth/login" : "/auth/register";
-      const body =
-        mode === "login"
-          ? { email, password }
-          : {
-              email,
-              password,
-              displayName: displayName || email.split("@")[0],
-            };
-
-      const res = await fetch(`${API_URL}/api${endpoint}`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
-        body: JSON.stringify(body),
-      });
-
-      if (!res.ok) {
-        const txt = await res.text();
-        throw new Error(txt || "Une erreur est survenue.");
-      }
-
-      const data = await res.json();
-      // Attendu : { token: "..." } côté API
-      const token = data?.token;
-      if (!token) {
-        // Mode démo si l'API ne renvoie pas encore de token
-        // (À retirer une fois l'API prête)
-        localStorage.setItem("authToken", "dev-token");
+      if (mode === "login") {
+        await login({ email, password });
       } else {
-        localStorage.setItem("authToken", token);
+        await register({
+          email,
+          password,
+          displayName: displayName || email.split("@")[0],
+        });
       }
-
       navigate(from, { replace: true });
     } catch (err) {
-      setError(err.message || "Échec de l'opération.");
+      setError(err?.response?.data?.error || err.message || "Échec");
     } finally {
       setLoading(false);
     }

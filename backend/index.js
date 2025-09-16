@@ -5,10 +5,32 @@ require("dotenv").config();
 
 const { sequelize } = require("./models");
 
+const authRoutes = require("./routes/auth");
+const articleRoutes = require("./routes/articles");
+const proposalRoutes = require("./routes/proposals");
+const commentRoutes = require("./routes/comments");
+const errorHandler = require("./middleware/errorHandler");
+
 const app = express();
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    credentials: false,
+  })
+);
 app.use(helmet());
 app.use(express.json());
+
+// routes
+app.use("/api/auth", authRoutes);
+app.use("/api/articles", articleRoutes);
+app.use("/api/proposals", proposalRoutes);
+app.use("/api/comments", commentRoutes);
+
+// 404
+app.use((req, res) => res.status(404).json({ error: "Not found" }));
+// error handler
+app.use(errorHandler);
 
 // Route de santé + vérification DB
 app.get("/health", async (req, res) => {
@@ -34,5 +56,5 @@ app.get("/api/articles", async (req, res) => {
   res.json(items);
 });
 
-const port = process.env.PORT || 4000;
+const port = process.env.PORT;
 app.listen(port, () => console.log(`API on http://localhost:${port}`));

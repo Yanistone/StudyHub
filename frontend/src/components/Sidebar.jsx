@@ -1,6 +1,9 @@
 import { NavLink } from "react-router-dom";
+import useIsAdmin from "../hooks/useIsAdmin";
 
 export default function Sidebar({ isOpen, onClose }) {
+  const { isAdmin, loading } = useIsAdmin();
+
   return (
     <>
       {/* Overlay mobile */}
@@ -39,13 +42,18 @@ export default function Sidebar({ isOpen, onClose }) {
             Proposer une fiche
           </NavLink>
 
-          <NavLink
-            to="/admin"
-            className={({ isActive }) => `sh-item ${isActive ? "active" : ""}`}
-            onClick={onClose}
-          >
-            Admin
-          </NavLink>
+          {/* Afficher le lien Admin uniquement si l'utilisateur a le rôle ADMIN ou MOD */}
+          {isAdmin && (
+            <NavLink
+              to="/admin"
+              className={({ isActive }) =>
+                `sh-item ${isActive ? "active" : ""}`
+              }
+              onClick={onClose}
+            >
+              Admin
+            </NavLink>
+          )}
         </nav>
       </aside>
     </>

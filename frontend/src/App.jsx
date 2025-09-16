@@ -11,10 +11,10 @@ import Layout from "./components/Layout.jsx";
 // Écrans (placeholders : adapte les chemins si besoin)
 import HomeScreen from "./screens/HomeScreen.jsx";
 import LoginScreen from "./screens/LoginScreen.jsx";
-//import ArticlesListScreen from "./screens/ArticlesListScreen.jsx";
-// import ArticleDetailScreen from "./screens/ArticleDetailScreen.jsx";
-// import SubmitArticleScreen from "./screens/SubmitArticleScreen.jsx";
-// import AdminDashboardScreen from "./screens/AdminDashboardScreen.jsx";
+import ArticlesListScreen from "./screens/ArticlesListScreen.jsx";
+import ArticleDetailScreen from "./screens/ArticleDetailScreen.jsx";
+import SubmitArticleScreen from "./screens/SubmitArticleScreen.jsx";
+import AdminDashboardScreen from "./screens/AdminDashboardScreen.jsx";
 
 function AuthStatus() {
   const navigate = useNavigate();
@@ -66,14 +66,14 @@ export default function App() {
             {/* Public */}
             <Route path="/" element={<HomeScreen />} />
             <Route path="/login" element={<LoginScreen />} />
-            {/* <Route path="/articles" element={<ArticlesListScreen />} /> */}
-            {/* <Route path="/articles/:slug" element={<ArticleDetailScreen />} /> */}
+            <Route path="/articles" element={<ArticlesListScreen />} />
+            <Route path="/articles/:slug" element={<ArticleDetailScreen />} />
 
             {/* Protégé */}
-            {/* <Route element={<ProtectedRoutes />}>
+            <Route element={<ProtectedRoutes />}>
               <Route path="/submit" element={<SubmitArticleScreen />} />
               <Route path="/admin" element={<AdminDashboardScreen />} />
-            </Route> */}
+            </Route>
 
             {/* 404 */}
             <Route path="/" element={<HomeScreen />} />

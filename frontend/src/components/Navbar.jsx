@@ -19,13 +19,6 @@ export default function Navbar({ onToggleSidebar, isSidebarOpen, isMobile }) {
       </div>
 
       <div className="sh-nav-right">
-        {/* Placeholders à adapter (search, profil, etc.) */}
-        <Link className="sh-link" to="/articles">
-          Fiches
-        </Link>
-        <Link className="sh-link" to="/submit">
-          Proposer
-        </Link>
         <Link className="sh-link" to="/admin">
           Admin
         </Link>

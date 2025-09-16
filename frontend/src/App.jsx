@@ -1,10 +1,4 @@
-import {
-  BrowserRouter,
-  Routes,
-  Route,
-  Link,
-  useNavigate,
-} from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import ProtectedRoutes from "./routes/ProtectedRoutes";
 import Layout from "./components/Layout.jsx";
 
@@ -16,42 +10,9 @@ import ArticleDetailScreen from "./screens/ArticleDetailScreen.jsx";
 import SubmitArticleScreen from "./screens/SubmitArticleScreen.jsx";
 import AdminDashboardScreen from "./screens/AdminDashboardScreen.jsx";
 
-function AuthStatus() {
-  const navigate = useNavigate();
-  const isAuthed = !!localStorage.getItem("authToken");
-
-  const handleLogout = () => {
-    localStorage.removeItem("authToken");
-    navigate("/", { replace: true });
-  };
-
-  return (
-    <div style={{ marginLeft: "auto", display: "flex", gap: 12 }}>
-      {isAuthed ? (
-        <>
-          <span>Connecté</span>
-          <button onClick={handleLogout}>Se déconnecter</button>
-        </>
-      ) : (
-        <Link to="/login">Se connecter</Link>
-      )}
-    </div>
-  );
-}
-
 function AppShell({ children }) {
   return (
     <div style={{ maxWidth: 1100, margin: "0 auto", padding: 16 }}>
-      <header
-        style={{
-          display: "flex",
-          gap: 16,
-          alignItems: "center",
-          marginBottom: 16,
-        }}
-      >
-        <AuthStatus />
-      </header>
       <main>{children}</main>
     </div>
   );

@@ -1,6 +1,15 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { IoPerson } from "react-icons/io5";
 
 export default function Navbar({ onToggleSidebar, isSidebarOpen, isMobile }) {
+  const navigate = useNavigate();
+  const isAuthed = !!localStorage.getItem("authToken");
+
+  const handleLogout = () => {
+    localStorage.removeItem("authToken");
+    navigate("/", { replace: true });
+  };
+
   return (
     <header className="sh-navbar">
       {isMobile && (
@@ -19,9 +28,26 @@ export default function Navbar({ onToggleSidebar, isSidebarOpen, isMobile }) {
       </div>
 
       <div className="sh-nav-right">
-        <Link className="sh-link" to="/admin">
-          Admin
-        </Link>
+        {isAuthed ? (
+          <>
+            <button 
+              onClick={handleLogout}
+              style={{ 
+                background: "none", 
+                border: "none", 
+                cursor: "pointer", 
+                display: "flex", 
+                alignItems: "center" 
+              }}
+            >
+              <IoPerson size={24} color="#e5e7eb" />
+            </button>
+          </>
+        ) : (
+          <Link className="sh-link" to="/login">
+            Se connecter
+          </Link>
+        )}
       </div>
     </header>
   );

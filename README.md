@@ -1,6 +1,8 @@
 # StudyHub
 
-![Logo StudyHub](./frontend/public/favicon.ico)
+<p align="center">
+  <img src="./frontend/public/favicon.ico" alt="Logo StudyHub">
+</p>
 
 ## Frontend
 

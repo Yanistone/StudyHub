@@ -1,5 +1,7 @@
 # StudyHub
 
+![Logo StudyHub](./frontend/public/favicon.ico)
+
 ## Frontend
 
 ```

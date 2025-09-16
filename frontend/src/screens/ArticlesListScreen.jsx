@@ -28,56 +28,36 @@ export default function ArticlesListScreen() {
   }, []); // initial
 
   return (
-    <section>
-      <h1>Fiches</h1>
-      <div style={{ display: "flex", gap: 8, marginBottom: 12 }}>
+    <section style={styles.wrapper}>
+      <h1 style={styles.title}>Fiches</h1>
+
+      <div style={styles.searchBox}>
         <input
           placeholder="Rechercher…"
           value={q}
           onChange={(e) => setQ(e.target.value)}
-          style={{
-            height: 38,
-            borderRadius: 8,
-            padding: "0 10px",
-            border: "1px solid #1f2937",
-            background: "rgba(17,24,39,0.6)",
-            color: "#e5e7eb",
-          }}
+          style={styles.input}
         />
-        <button onClick={load} style={{ height: 38, borderRadius: 8 }}>
+        <button onClick={load} style={styles.button}>
           Rechercher
         </button>
       </div>
 
       {loading ? (
-        <p>Chargement…</p>
+        <p style={styles.info}>Chargement…</p>
       ) : items.length === 0 ? (
-        <p>Aucune fiche.</p>
+        <p style={styles.info}>Aucune fiche.</p>
       ) : (
-        <ul
-          style={{
-            paddingLeft: 0,
-            listStyle: "none",
-            display: "grid",
-            gap: 10,
-          }}
-        >
+        <ul style={styles.list}>
           {items.map((a) => (
-            <li
-              key={a.id}
-              style={{
-                border: "1px solid #1f2937",
-                borderRadius: 10,
-                padding: 12,
-              }}
-            >
-              <Link to={`/articles/${a.slug}`}>
+            <li key={a.id} style={styles.card}>
+              <Link to={`/articles/${a.slug}`} style={styles.link}>
                 <strong>{a.title}</strong>
               </Link>
-              <div style={{ color: "#9ca3af", fontSize: 14 }}>
+              <div style={styles.meta}>
                 {a?.category?.name} · {a?.author?.email}
               </div>
-              {a.summary && <p style={{ marginTop: 6 }}>{a.summary}</p>}
+              {a.summary && <p style={styles.summary}>{a.summary}</p>}
             </li>
           ))}
         </ul>
@@ -85,3 +65,77 @@ export default function ArticlesListScreen() {
     </section>
   );
 }
+
+const styles = {
+  wrapper: {
+    padding: "20px",
+    background: "#fff",
+    minHeight: "calc(100vh - 56px)",
+  },
+  title: {
+    fontSize: 28,
+    fontWeight: 700,
+    marginBottom: 16,
+    color: "#374151",
+    paddingTop: 20,
+  },
+  searchBox: {
+    display: "flex",
+    gap: 8,
+    marginBottom: 16,
+  },
+  input: {
+    flex: 1,
+    height: 40,
+    borderRadius: 8,
+    padding: "0 12px",
+    border: "1px solid #d1d5db",
+    background: "#fff",
+    color: "#111827",
+    outline: "none",
+  },
+  button: {
+    height: 40,
+    borderRadius: 8,
+    padding: "0 14px",
+    border: "none",
+    background: "#467599",
+    color: "#fff",
+    fontWeight: 600,
+    cursor: "pointer",
+    transition: "background 0.2s ease",
+  },
+  list: {
+    paddingLeft: 0,
+    listStyle: "none",
+    display: "grid",
+    gap: 12,
+  },
+  card: {
+    border: "1px solid #e5e7eb",
+    borderRadius: 10,
+    padding: 14,
+    background: "#fff",
+    boxShadow: "0 2px 6px rgba(0,0,0,0.05)",
+  },
+  link: {
+    fontSize: 18,
+    color: "#467599",
+    textDecoration: "none",
+    fontWeight: 600,
+  },
+  meta: {
+    color: "#6b7280",
+    fontSize: 14,
+    marginTop: 4,
+  },
+  summary: {
+    marginTop: 8,
+    color: "#374151",
+    fontSize: 15,
+  },
+  info: {
+    color: "#6b7280",
+    fontSize: 15,
+  },
+};

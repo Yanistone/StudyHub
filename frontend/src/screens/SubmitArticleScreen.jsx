@@ -5,6 +5,7 @@ export default function SubmitArticleScreen() {
   useEffect(() => {
     document.title = "StudyHub | Proposer une fiche";
   }, []);
+  
   const [title, setTitle] = useState("");
   const [summary, setSummary] = useState("");
   const [content, setContent] = useState("");
@@ -24,71 +25,110 @@ export default function SubmitArticleScreen() {
         categoryId: categoryId ? Number(categoryId) : null,
       };
       await createProposal({ type: "NEW", payloadJson });
-      setMsg("Proposition envoyée, en attente de validation.");
+      setMsg("✅ Proposition envoyée, en attente de validation.");
       setTitle("");
       setSummary("");
       setContent("");
       setCategoryId("");
     } catch (e) {
       console.error(e);
-      setMsg(e?.response?.data?.error || "Erreur");
+      setMsg("❌ " + (e?.response?.data?.error || "Erreur"));
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <section>
-      <h1>Proposer une fiche</h1>
-      <form
-        onSubmit={onSubmit}
-        style={{ display: "grid", gap: 10, maxWidth: 720 }}
-      >
+    <section style={styles.wrapper}>
+      <h1 style={styles.title}>Proposer une fiche</h1>
+      <form onSubmit={onSubmit} style={styles.form}>
         <input
           placeholder="Titre"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          style={input}
+          style={styles.input}
+          required
         />
         <input
           placeholder="Résumé"
           value={summary}
           onChange={(e) => setSummary(e.target.value)}
-          style={input}
+          style={styles.input}
         />
         <textarea
           placeholder="Contenu"
           value={content}
           onChange={(e) => setContent(e.target.value)}
           rows={10}
-          style={textarea}
+          style={styles.textarea}
+          required
         />
         <input
-          placeholder="CategoryId (optionnel)"
+          placeholder="Catégorie (ID optionnel)"
           value={categoryId}
           onChange={(e) => setCategoryId(e.target.value)}
-          style={input}
+          style={styles.input}
         />
-        <button disabled={loading} style={{ height: 40, borderRadius: 8 }}>
+        <button disabled={loading} style={styles.button}>
           {loading ? "Envoi…" : "Soumettre"}
         </button>
-        {msg && <div style={{ color: "#9ca3af" }}>{msg}</div>}
+        {msg && <div style={styles.message}>{msg}</div>}
       </form>
     </section>
   );
 }
-const input = {
-  height: 38,
-  borderRadius: 8,
-  padding: "0 10px",
-  border: "1px solid #1f2937",
-  background: "rgba(17,24,39,0.6)",
-  color: "#e5e7eb",
-};
-const textarea = {
-  borderRadius: 8,
-  padding: 10,
-  border: "1px solid #1f2937",
-  background: "rgba(17,24,39,0.6)",
-  color: "#e5e7eb",
+
+const styles = {
+  wrapper: {
+    padding: 20,
+    background: "#fff",
+    minHeight: "calc(100vh - 56px)",
+    paddingTop: 40,
+  },
+  title: {
+    fontSize: 26,
+    fontWeight: 700,
+    marginBottom: 20,
+    color: "#374151",
+  },
+  form: {
+    display: "grid",
+    gap: 14,
+    maxWidth: 720,
+  },
+  input: {
+    height: 40,
+    borderRadius: 8,
+    padding: "0 12px",
+    border: "1px solid #d1d5db",
+    background: "#fff",
+    color: "#111827",
+    outline: "none",
+    fontSize: 15,
+  },
+  textarea: {
+    borderRadius: 8,
+    padding: 12,
+    border: "1px solid #d1d5db",
+    background: "#fff",
+    color: "#111827",
+    fontSize: 15,
+    outline: "none",
+  },
+  button: {
+    height: 42,
+    borderRadius: 8,
+    border: "none",
+    background: "#467599",
+    color: "#fff",
+    fontWeight: 600,
+    fontSize: 15,
+    cursor: "pointer",
+    transition: "background 0.2s ease",
+  },
+  message: {
+    marginTop: 10,
+    fontSize: 15,
+    color: "#374151",
+  },
 };

@@ -1,6 +1,8 @@
+// src/screens/LoginScreen.jsx
 import { useEffect, useMemo, useState } from "react";
 import { useLocation, useNavigate, Link } from "react-router-dom";
-import { login, register } from "../api/auth";
+
+const API_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:4000";
 
 export default function LoginScreen() {
   const navigate = useNavigate();
@@ -21,26 +23,51 @@ export default function LoginScreen() {
 
   useEffect(() => {
     document.title =
-      mode === "login" ? "StudyHub | Connexion" : "StudyHub | Inscription";
+      mode === "login" ? "StudyHub — Connexion" : "StudyHub — Inscription";
   }, [mode]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
     setLoading(true);
+
     try {
-      if (mode === "login") {
-        await login({ email, password });
-      } else {
-        await register({
-          email,
-          password,
-          displayName: displayName || email.split("@")[0],
-        });
+      const endpoint = mode === "login" ? "/auth/login" : "/auth/register";
+      const body =
+        mode === "login"
+          ? { email, password }
+          : {
+              email,
+              password,
+              displayName: displayName || email.split("@")[0],
+            };
+
+      const res = await fetch(`${API_URL}/api${endpoint}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify(body),
+      });
+
+      if (!res.ok) {
+        const txt = await res.text();
+        throw new Error(txt || "Une erreur est survenue.");
       }
+
+      const data = await res.json();
+      // Attendu : { token: "..." } côté API
+      const token = data?.token;
+      if (!token) {
+        // Mode démo si l'API ne renvoie pas encore de token
+        // (À retirer une fois l'API prête)
+        localStorage.setItem("authToken", "dev-token");
+      } else {
+        localStorage.setItem("authToken", token);
+      }
+
       navigate(from, { replace: true });
     } catch (err) {
-      setError(err?.response?.data?.error || err.message || "Échec");
+      setError(err.message || "Échec de l'opération.");
     } finally {
       setLoading(false);
     }
@@ -139,6 +166,7 @@ export default function LoginScreen() {
               ? "Se connecter"
               : "Créer le compte"}
           </button>
+
         </form>
 
         <div style={styles.meta}>
@@ -174,84 +202,99 @@ const styles = {
   wrapper: {
     display: "grid",
     placeItems: "center",
-    minHeight: "calc(100vh - 56px)", // tient compte de la navbar du Layout
+    minHeight: "calc(100vh - 56px)",
     padding: 16,
+    background: "#fff", 
   },
   card: {
     width: "100%",
     maxWidth: 420,
-    background: "rgba(255,255,255,0.02)",
-    border: "1px solid #1f2937",
+    background: "#fff",
+    border: "1px solid #e5e7eb",
     borderRadius: 12,
-    padding: 16,
+    padding: 24,
+    boxShadow: "0 4px 12px rgba(0,0,0,0.08)",
   },
   tabs: {
     display: "grid",
     gridTemplateColumns: "1fr 1fr",
     gap: 8,
-    marginBottom: 12,
+    marginBottom: 20,
   },
   tab: {
     padding: "10px 12px",
     background: "transparent",
-    color: "#e5e7eb",
-    border: "1px solid #1f2937",
+    color: "#374151",
+    border: "1px solid #d1d5db",
     borderRadius: 10,
     fontWeight: 600,
+    cursor: "pointer",
   },
   tabActive: {
-    background: "rgba(59,130,246,0.15)",
-    borderColor: "rgba(59,130,246,0.35)",
-    color: "#dbeafe",
+    background: "#467599",
+    borderColor: "#467599",
+    color: "#fff",
   },
   form: {
     display: "flex",
     flexDirection: "column",
-    gap: 10,
+    gap: 14,
   },
   field: { display: "flex", flexDirection: "column", gap: 6 },
-  label: { fontSize: 12, color: "#9ca3af" },
+  label: { fontSize: 13, fontWeight: 500, color: "#374151" },
   input: {
-    height: 40,
+    height: 42,
     padding: "0 12px",
-    color: "#e5e7eb",
-    background: "rgba(17,24,39,0.6)",
-    border: "1px solid #1f2937",
+    color: "#111827",
+    background: "#fff",
+    border: "1px solid #d1d5db",
     borderRadius: 10,
     outline: "none",
   },
   primaryBtn: {
-    height: 42,
+    height: 44,
     borderRadius: 10,
-    border: "1px solid rgba(59,130,246,0.35)",
-    background: "rgba(59,130,246,0.2)",
-    color: "#dbeafe",
+    border: "none",
+    background: "#467599",
+    color: "#fff",
     fontWeight: 700,
+    cursor: "pointer",
+    transition: "background 0.2s ease",
+  },
+  primaryBtnHover: {
+    background: "#375974",
   },
   secondaryBtn: {
     height: 42,
     borderRadius: 10,
-    border: "1px solid #1f2937",
-    background: "transparent",
-    color: "#e5e7eb",
+    border: "1px solid #d1d5db",
+    background: "#fff",
+    color: "#374151",
     fontWeight: 600,
+    cursor: "pointer",
   },
   linkBtn: {
     padding: 0,
     margin: 0,
     border: "none",
     background: "none",
-    color: "#93c5fd",
+    color: "#467599",
     textDecoration: "underline",
     cursor: "pointer",
+    fontSize: 14,
   },
   error: {
-    background: "rgba(239,68,68,0.15)",
-    border: "1px solid rgba(239,68,68,0.35)",
-    color: "#fecaca",
+    background: "#fee2e2",
+    border: "1px solid #fecaca",
+    color: "#b91c1c",
     borderRadius: 10,
     padding: "8px 10px",
     fontSize: 14,
   },
-  meta: { marginTop: 10, fontSize: 14, color: "#9ca3af", textAlign: "center" },
+  meta: {
+    marginTop: 14,
+    fontSize: 14,
+    color: "#6b7280",
+    textAlign: "center",
+  },
 };

@@ -200,11 +200,11 @@ export default function LoginScreen() {
 
 const styles = {
   wrapper: {
-    display: "grid",
-    placeItems: "center",
-    minHeight: "calc(100vh - 56px)",
+    display: "flex",
     padding: 16,
-    background: "#fff", 
+    justifyContent: "center",
+    alignItems: "center",
+    minHeight: "calc(100vh - 88px)",
   },
   card: {
     width: "100%",

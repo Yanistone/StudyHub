@@ -38,7 +38,7 @@ export default function AdminDashboardScreen() {
 
   return (
     <section>
-      <h1>Admin — Propositions en attente</h1>
+      <h1>Dashboard</h1>
       {msg && <div style={{ color: "#9ca3af", marginBottom: 10 }}>{msg}</div>}
       {loading ? (
         <p>Chargement…</p>

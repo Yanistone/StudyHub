@@ -11,7 +11,9 @@ export default function ArticleDetailScreen() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    document.title = `StudyHub | ${slug}`;
+    document.title = `StudyHub | ${
+      slug.charAt(0).toUpperCase() + slug.slice(1)
+    }`;
   }, [slug]);
 
   async function load() {

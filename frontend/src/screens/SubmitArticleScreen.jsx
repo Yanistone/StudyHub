@@ -81,7 +81,6 @@ export default function SubmitArticleScreen() {
 const styles = {
   wrapper: {
     padding: 20,
-    background: "#fff",
     minHeight: "calc(100vh - 56px)",
     paddingTop: 40,
   },
@@ -89,7 +88,6 @@ const styles = {
     fontSize: 26,
     fontWeight: 700,
     marginBottom: 20,
-    color: "#374151",
   },
   form: {
     display: "grid",

@@ -24,6 +24,7 @@ export default function Layout({ children }) {
   --sh-bg: #0f172a;
   --sh-bg-2: #111827;
   --sh-text: #e5e7eb;
+  --sh-text-2: #111827;
   --sh-muted: #9ca3af;
   --sh-accent: #3b82f6;
   --sh-border: #1f2937;
@@ -35,9 +36,9 @@ button { cursor: pointer; }
 
 body {
   margin: 0;
-  background: #0b1022;
-  color: var(--sh-text);
-  font-family: Poppins, sans-serif;
+  background:rgb(245, 245, 245);
+  color: var(--sh-text-2);
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji", sans-serif;
 }
 
 /* NAVBAR */
@@ -45,8 +46,8 @@ body {
   position: fixed;
   top: 0; left: 0; right: 0;
   height: var(--sh-navbar-h);
-  background: #467599;
-  border-bottom: 2px solid #375974;
+  background: var(--sh-bg);
+  border-bottom: 1px solid var(--sh-border);
   display: flex;
   align-items: center;
   gap: 12px;
@@ -65,10 +66,12 @@ body {
 }
 
 .sh-brand a {
+  display: flex;
+  align-items: center;
+  gap: 8px;
   font-weight: 700;
   letter-spacing: .2px;
-  font-size: 20px;
-  color: #fff;  
+  font-size: 18px;
 }
 
 .sh-nav-right {
@@ -79,8 +82,13 @@ body {
 
 .sh-link {
   padding: 6px 10px;
-  color: #fff;
-  font-weight: bold;
+  border-radius: 8px;
+  border: 1px solid transparent;
+}
+
+.sh-link:hover {
+  border-color: var(--sh-border);
+  background: rgba(255,255,255,0.03);
 }
 
 /* SIDEBAR */
@@ -90,8 +98,8 @@ body {
   left: 0;
   width: var(--sh-sidebar-w);
   bottom: 0;
-  background: #467599;
-  border-right: 2px solid #375974;
+  background: var(--sh-bg-2);
+  border-right: 1px solid var(--sh-border);
   padding: 12px;
   overflow-y: auto;
   z-index: 40;
@@ -108,7 +116,7 @@ body {
 .sh-sidebar-title {
   font-size: 12px;
   text-transform: uppercase;
-  color: #fff;
+  color: var(--sh-muted);
   letter-spacing: .8px;
   font-weight: bold;
 }
@@ -136,21 +144,21 @@ body {
   border: 1px solid transparent;
 }
 .sh-item:hover {
-  background: #37597476;
-  border-color: #fff;
+  background: rgba(255,255,255,0.04);
+  border-color: var(--sh-border);
 }
 .sh-item.active {
-  background: #375974;
-  border-color: #fff;
-  color: #fff;
+  background: rgba(59,130,246,0.15);
+  border-color: rgba(59,130,246,0.35);
+  color: #dbeafe;
   font-weight: bold;
 }
 
 /* CONTENT */
 .sh-content {
+  padding-top: var(--sh-navbar-h);
   padding-left: var(--sh-sidebar-w);
   min-height: 100vh;
-  background: #fff;
 }
 .sh-content-inner {
   max-width: 1100px;

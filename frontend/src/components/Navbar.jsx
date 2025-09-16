@@ -11,7 +11,7 @@ export default function Navbar({ onToggleSidebar, isSidebarOpen, isMobile }) {
   };
 
   return (
-    <header className="sh-navbar">
+    <header className="sh-navbar" style={{ color: "var(--sh-text)" }}>
       {isMobile && (
         <button
           aria-label="Ouvrir le menu"
@@ -24,23 +24,26 @@ export default function Navbar({ onToggleSidebar, isSidebarOpen, isMobile }) {
       )}
 
       <div className="sh-brand">
-        <Link to="/">StudyHub</Link>
+        <Link to="/">
+          <img src="/favicon.png" alt="StudyHub Logo" width="38" height="38" />
+          StudyHub
+        </Link>
       </div>
 
       <div className="sh-nav-right">
         {isAuthed ? (
           <>
-            <button 
+            <button
               onClick={handleLogout}
-              style={{ 
-                background: "none", 
-                border: "none", 
-                cursor: "pointer", 
-                display: "flex", 
-                alignItems: "center" 
+              style={{
+                background: "none",
+                border: "none",
+                cursor: "pointer",
+                display: "flex",
+                alignItems: "center",
               }}
             >
-              <IoPerson size={24} color="#fff" />
+              <IoPerson size={24} color="#e5e7eb" />
             </button>
           </>
         ) : (

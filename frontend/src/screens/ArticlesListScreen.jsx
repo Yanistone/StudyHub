@@ -69,14 +69,13 @@ export default function ArticlesListScreen() {
 const styles = {
   wrapper: {
     padding: "20px",
-    background: "#fff",
     minHeight: "calc(100vh - 56px)",
+    color: "var(--sh-text-2)",
   },
   title: {
     fontSize: 28,
     fontWeight: 700,
     marginBottom: 16,
-    color: "#374151",
     paddingTop: 20,
   },
   searchBox: {

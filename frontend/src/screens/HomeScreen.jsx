@@ -2,7 +2,7 @@ import { useEffect } from "react";
 
 export default function HomeScreen() {
   useEffect(() => {
-    document.title = "StudyHub — Accueil";
+    document.title = "StudyHub | Accueil";
   }, []);
 
   return (

@@ -109,6 +109,6 @@ const btnReject = {
   padding: "6px 12px",
   borderRadius: 8,
   border: "1px solid rgba(239,68,68,0.5)",
-  background: "rgba(239,68,68)",
+  background: "rgba(239,67,67)",
   color: "#fecaca",
 };

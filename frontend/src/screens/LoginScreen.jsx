@@ -231,8 +231,8 @@ const styles = {
     cursor: "pointer",
   },
   tabActive: {
-    background: "#467599",
-    borderColor: "#467599",
+    background: "var(--sh-bg-2)",
+    borderColor: "var(--sh-bg-2)",
     color: "#fff",
   },
   form: {
@@ -255,7 +255,7 @@ const styles = {
     height: 44,
     borderRadius: 10,
     border: "none",
-    background: "#467599",
+    background: "var(--sh-bg-2)",
     color: "#fff",
     fontWeight: 700,
     cursor: "pointer",
@@ -278,7 +278,7 @@ const styles = {
     margin: 0,
     border: "none",
     background: "none",
-    color: "#467599",
+    color: "var(--sh-bg-2)",
     textDecoration: "underline",
     cursor: "pointer",
     fontSize: 14,

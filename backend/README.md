@@ -1,5 +1,6 @@
-## API Endpoints
+# Backend
 
+## API Endpoints
 ### Auth
 
 - `POST /api/auth/register` → inscription d’un utilisateur  

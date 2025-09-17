@@ -23,7 +23,7 @@ export default function LoginScreen() {
 
   useEffect(() => {
     document.title =
-      mode === "login" ? "StudyHub — Connexion" : "StudyHub — Inscription";
+      mode === "login" ? "StudyHub | Connexion" : "StudyHub | Inscription";
   }, [mode]);
 
   const handleSubmit = async (e) => {

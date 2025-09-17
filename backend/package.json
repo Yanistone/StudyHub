@@ -10,7 +10,8 @@
     "db:migrate": "sequelize db:migrate",
     "db:migrate:undo": "sequelize db:migrate:undo",
     "db:seed": "sequelize db:seed:all",
-    "db:seed:undo": "sequelize db:seed:undo:all"
+    "db:seed:undo": "sequelize db:seed:undo:all",
+    "db:create:all": "npm run db:create && npm run db:migrate && npm run db:seed"
   },
   "keywords": [],
   "author": "",

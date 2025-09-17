@@ -98,7 +98,7 @@ const styles = {
     borderRadius: 8,
     padding: "0 14px",
     border: "none",
-    background: "#467599",
+    background: "var(--sh-bg-2)",
     color: "#fff",
     fontWeight: 600,
     cursor: "pointer",

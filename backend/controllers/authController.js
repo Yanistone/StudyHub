@@ -11,10 +11,10 @@ exports.register = async (req, res, next) => {
   try {
     const { email, password } = req.body || {};
     if (!email || !password)
-      return res.status(400).json({ error: "email & password required" });
+      return res.status(400).json("E-mail et mot de passe sont requis");
 
     const exists = await User.findOne({ where: { email } });
-    if (exists) return res.status(409).json({ error: "Email already used" });
+    if (exists) return res.status(409).json("E-mail déjà utilisé");
 
     const hash = await bcrypt.hash(password, 10);
     const user = await User.create({
@@ -38,13 +38,13 @@ exports.login = async (req, res, next) => {
   try {
     const { email, password } = req.body || {};
     if (!email || !password)
-      return res.status(400).json({ error: "email & password required" });
+      return res.status(400).json("E-mail et mot de passe sont requis");
 
     const user = await User.findOne({ where: { email, isActive: true } });
-    if (!user) return res.status(401).json({ error: "Invalid credentials" });
+    if (!user) return res.status(401).json("E-mail ou mot de passe incorrect");
 
     const ok = await bcrypt.compare(password, user.passwordHash);
-    if (!ok) return res.status(401).json({ error: "Invalid credentials" });
+    if (!ok) return res.status(401).json("E-mail ou mot de passe incorrect");
 
     const token = sign(user);
     res.json({

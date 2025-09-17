@@ -157,7 +157,7 @@ export default function LoginScreen() {
             />
           </div>
 
-          {error && <div style={styles.error}>{error}</div>}
+          {error && <div style={styles.error}>{error.slice(1, -1)}</div>}
 
           <button type="submit" disabled={loading} style={styles.primaryBtn}>
             {loading
@@ -166,7 +166,6 @@ export default function LoginScreen() {
               ? "Se connecter"
               : "Créer le compte"}
           </button>
-
         </form>
 
         <div style={styles.meta}>
@@ -290,6 +289,7 @@ const styles = {
     borderRadius: 10,
     padding: "8px 10px",
     fontSize: 14,
+    textAlign: "center",
   },
   meta: {
     marginTop: 14,

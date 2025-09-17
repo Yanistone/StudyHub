@@ -8,7 +8,7 @@ module.exports = {
 
     await queryInterface.bulkInsert("Users", [
       {
-        email: "user@outlook.com",
+        email: "user@user.com",
         passwordHash,
         role: "USER",
         isActive: true,
@@ -19,6 +19,6 @@ module.exports = {
   },
 
   async down(queryInterface) {
-    await queryInterface.bulkDelete("Users", { email: "user@outlook.com" }, {});
+    await queryInterface.bulkDelete("Users", { email: "user@user.com" }, {});
   },
 };

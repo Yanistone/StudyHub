@@ -1,4 +1,3 @@
-// src/screens/LoginScreen.jsx
 import { useEffect, useMemo, useState } from "react";
 import { useLocation, useNavigate, Link } from "react-router-dom";
 

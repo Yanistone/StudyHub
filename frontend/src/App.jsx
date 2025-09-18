@@ -2,7 +2,6 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import ProtectedRoutes from "./routes/ProtectedRoutes";
 import Layout from "./components/Layout.jsx";
 
-// Écrans (placeholders : adapte les chemins si besoin)
 import HomeScreen from "./screens/HomeScreen.jsx";
 import LoginScreen from "./screens/LoginScreen.jsx";
 import ArticlesListScreen from "./screens/ArticlesListScreen.jsx";

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { createProposal } from "../api/proposals";
+// import { createProposal } from "../api/proposals";
 import api from "../api/client";
 
 export default function AdminDashboardScreen() {

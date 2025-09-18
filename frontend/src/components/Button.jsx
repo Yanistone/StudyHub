@@ -1,14 +1,11 @@
-import React from "react";
-
-export default function Button({ 
-  label, 
-  color = "#111827", 
-  textColor = "#fff", 
-  size = "medium", 
-  onClick, 
-  style 
+export default function Button({
+  label,
+  color = "#111827",
+  textColor = "#fff",
+  size = "medium",
+  onClick,
+  style,
 }) {
-
   const sizes = {
     small: { padding: "6px 12px", fontSize: "14px" },
     medium: { padding: "10px 16px", fontSize: "16px" },

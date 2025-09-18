@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { listArticles } from "../api/articles";
+import Button from "../components/Button.jsx";
 
 export default function ArticlesListScreen() {
   const [q, setQ] = useState("");
@@ -38,9 +39,7 @@ export default function ArticlesListScreen() {
           onChange={(e) => setQ(e.target.value)}
           style={styles.input}
         />
-        <button onClick={load} style={styles.button}>
-          Rechercher
-        </button>
+        <Button label="Rechercher" onClick={load} size="small" />
       </div>
 
       {loading ? (

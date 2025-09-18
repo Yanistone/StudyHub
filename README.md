@@ -39,3 +39,29 @@ Seeder la base de données:
 ```
 npm run db:seed
 ```
+
+### Account
+
+- User:
+
+```
+user@user.com
+```
+
+- Mod :
+
+```
+mod@mod.com
+```
+
+- Admin :
+
+```
+admin@admin.com
+```
+
+- password :
+
+```
+password123
+```

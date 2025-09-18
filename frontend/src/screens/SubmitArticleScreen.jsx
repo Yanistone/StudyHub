@@ -117,7 +117,7 @@ const styles = {
     height: 42,
     borderRadius: 8,
     border: "none",
-    background: "#467599",
+    background: "#111827",
     color: "#fff",
     fontWeight: 600,
     fontSize: 15,

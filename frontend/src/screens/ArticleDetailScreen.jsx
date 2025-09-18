@@ -112,11 +112,11 @@ export default function ArticleDetailScreen() {
             borderRadius: 8,
             padding: "0 10px",
             border: "1px solid #1f2937",
-            background: "rgba(17,24,39,0.6)",
-            color: "#e5e7eb",
+            background: "#111827",
+            color: "#fff",
           }}
         />
-        <button type="submit" style={{ height: 38, borderRadius: 8 }}>
+        <button type="submit" style={{ height: 38, borderRadius: 8, backgroundColor: "#111827", color: "#fff", border: "none", padding: "0 12px", fontWeight: 600, cursor: "pointer" }}>
           Publier
         </button>
       </form>

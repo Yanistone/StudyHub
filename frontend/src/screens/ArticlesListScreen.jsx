@@ -119,7 +119,7 @@ const styles = {
   },
   link: {
     fontSize: 18,
-    color: "#467599",
+    color: "#111827",
     textDecoration: "none",
     fontWeight: 600,
   },

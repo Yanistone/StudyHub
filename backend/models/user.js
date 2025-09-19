@@ -22,6 +22,7 @@ module.exports = (sequelize, DataTypes) => {
         validate: { isEmail: true },
       },
       passwordHash: { type: DataTypes.STRING, allowNull: false },
+      username: { type: DataTypes.STRING, allowNull: false },
       role: { type: DataTypes.STRING, allowNull: false, defaultValue: "USER" },
       isActive: {
         type: DataTypes.BOOLEAN,

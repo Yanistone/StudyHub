@@ -10,6 +10,7 @@ module.exports = {
       {
         email: "admin@admin.com",
         passwordHash,
+        username: "admin",
         role: "ADMIN",
         isActive: true,
         createdAt: now,

@@ -1,15 +1,12 @@
-import React from "react";
-
-export default function Select({ 
-  options = [], 
-  value, 
-  onChange, 
-  color = "#4b5563", 
-  textColor = "#fff", 
-  size = "medium", 
-  style 
+export default function Select({
+  options = [],
+  value,
+  onChange,
+  color = "#4b5563",
+  textColor = "#fff",
+  size = "medium",
+  style,
 }) {
-
   const sizes = {
     small: { padding: "6px 10px", fontSize: "14px" },
     medium: { padding: "8px 14px", fontSize: "16px" },

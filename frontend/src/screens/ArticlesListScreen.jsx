@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
 import { listArticles } from "../api/articles";
 import Button from "../components/Button.jsx";
-import Select from "../components/Select.jsx"; 
+import Select from "../components/Select.jsx";
 import Card from "../components/Card.jsx";
 
 export default function ArticlesListScreen() {
   const [q, setQ] = useState("");
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [category, setCategory] = useState("all"); 
+  const [category, setCategory] = useState("all");
 
   useEffect(() => {
     document.title = "StudyHub | Fiches";
@@ -17,7 +17,7 @@ export default function ArticlesListScreen() {
   const load = async () => {
     setLoading(true);
     try {
-      const data = await listArticles({ q, category }); 
+      const data = await listArticles({ q, category });
       setItems(data);
     } catch (e) {
       console.error(e);

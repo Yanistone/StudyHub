@@ -40,7 +40,6 @@ body {
   color: var(--sh-text-2);
   font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji", sans-serif;
 }
-
 /* NAVBAR */
 .sh-navbar {
   position: fixed;

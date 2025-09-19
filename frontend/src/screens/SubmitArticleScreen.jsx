@@ -1,17 +1,24 @@
 import { useEffect, useState } from "react";
 import { createProposal } from "../api/proposals";
+import Select from "../components/Select.jsx";
 
 export default function SubmitArticleScreen() {
   useEffect(() => {
     document.title = "StudyHub | Proposer une fiche";
   }, []);
-  
+
   const [title, setTitle] = useState("");
   const [summary, setSummary] = useState("");
   const [content, setContent] = useState("");
   const [categoryId, setCategoryId] = useState("");
   const [loading, setLoading] = useState(false);
   const [msg, setMsg] = useState("");
+
+  const categoryOptions = [
+    { value: "dev", label: "Développement" },
+    { value: "design", label: "Design" },
+    { value: "infra", label: "Infrastructure" },
+  ];
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -63,11 +70,12 @@ export default function SubmitArticleScreen() {
           style={styles.textarea}
           required
         />
-        <input
-          placeholder="Catégorie (ID optionnel)"
+        <Select
+          options={categoryOptions}
           value={categoryId}
           onChange={(e) => setCategoryId(e.target.value)}
-          style={styles.input}
+          size="small"
+          style={{ minWidth: 180 }}
         />
         <button disabled={loading} style={styles.button}>
           {loading ? "Envoi…" : "Soumettre"}
@@ -92,7 +100,6 @@ const styles = {
   form: {
     display: "grid",
     gap: 14,
-    maxWidth: 720,
   },
   input: {
     height: 40,

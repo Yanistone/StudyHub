@@ -8,6 +8,7 @@ import ArticlesListScreen from "./screens/ArticlesListScreen.jsx";
 import ArticleDetailScreen from "./screens/ArticleDetailScreen.jsx";
 import SubmitArticleScreen from "./screens/SubmitArticleScreen.jsx";
 import AdminDashboardScreen from "./screens/AdminDashboardScreen.jsx";
+import ProfileScreen from "./screens/ProfileScreen.jsx";
 
 function AppShell({ children }) {
   return (
@@ -33,6 +34,7 @@ export default function App() {
             <Route element={<ProtectedRoutes />}>
               <Route path="/submit" element={<SubmitArticleScreen />} />
               <Route path="/admin" element={<AdminDashboardScreen />} />
+              <Route path="/profile" element={<ProfileScreen />} />
             </Route>
 
             {/* 404 */}

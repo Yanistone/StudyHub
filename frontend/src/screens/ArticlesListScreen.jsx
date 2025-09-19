@@ -83,7 +83,6 @@ export default function ArticlesListScreen() {
 const styles = {
   wrapper: {
     padding: "20px",
-    minHeight: "calc(100vh - 56px)",
     color: "var(--sh-text-2)",
   },
   title: {

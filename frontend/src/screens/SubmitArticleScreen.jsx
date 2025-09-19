@@ -89,7 +89,6 @@ export default function SubmitArticleScreen() {
 const styles = {
   wrapper: {
     padding: 20,
-    minHeight: "calc(100vh - 56px)",
     paddingTop: 40,
   },
   title: {

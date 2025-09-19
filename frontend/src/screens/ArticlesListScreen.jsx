@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import { listArticles } from "../api/articles";
 import Button from "../components/Button.jsx";
 import Select from "../components/Select.jsx"; 
+import Card from "../components/Card.jsx";
 
 export default function ArticlesListScreen() {
   const [q, setQ] = useState("");
@@ -65,15 +65,14 @@ export default function ArticlesListScreen() {
       ) : (
         <ul style={styles.list}>
           {items.map((a) => (
-            <li key={a.id} style={styles.card}>
-              <Link to={`/articles/${a.slug}`} style={styles.link}>
-                <strong>{a.title}</strong>
-              </Link>
-              <div style={styles.meta}>
-                {a?.category?.name} · {a?.author?.email}
-              </div>
-              {a.summary && <p style={styles.summary}>{a.summary}</p>}
-            </li>
+            <Card
+              key={a.id}
+              title={a.title}
+              slug={a.slug}
+              category={a?.category?.name}
+              author={a?.author?.email}
+              summary={a.summary}
+            />
           ))}
         </ul>
       )}
@@ -112,33 +111,11 @@ const styles = {
     paddingLeft: 0,
     listStyle: "none",
     display: "grid",
-    gap: 12,
-  },
-  card: {
-    border: "1px solid #e5e7eb",
-    borderRadius: 10,
-    padding: 14,
-    background: "#fff",
-    boxShadow: "0 2px 6px rgba(0,0,0,0.05)",
-  },
-  link: {
-    fontSize: 18,
-    color: "#111827",
-    textDecoration: "none",
-    fontWeight: 600,
-  },
-  meta: {
-    color: "#6b7280",
-    fontSize: 14,
-    marginTop: 4,
-  },
-  summary: {
-    marginTop: 8,
-    color: "#374151",
-    fontSize: 15,
+    gap: 16,
+    gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
   },
   info: {
-    color: "#6b7280",
+    color: "#111827",
     fontSize: 15,
   },
 };

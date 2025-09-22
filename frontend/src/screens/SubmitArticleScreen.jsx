@@ -85,7 +85,7 @@ export default function SubmitArticleScreen() {
           placeholder="Contenu"
           value={content}
           onChange={(e) => setContent(e.target.value)}
-          rows={10}
+          rows={15}
           style={styles.textarea}
           required
         />
@@ -136,6 +136,7 @@ const styles = {
     color: "#111827",
     fontSize: 15,
     outline: "none",
+    resize: "vertical",
   },
   button: {
     height: 42,

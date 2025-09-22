@@ -17,7 +17,7 @@ exports.list = async (req, res, next) => {
     if (categoryId) where.categoryId = categoryId;
 
     const include = [
-      { model: User, as: "author", attributes: ["id", "email"] },
+      { model: User, as: "author", attributes: ["id", "username"] },
       { model: Category, attributes: ["id", "name", "slug"] },
       {
         model: Tag,
@@ -53,7 +53,7 @@ exports.bySlug = async (req, res, next) => {
     const art = await Article.findOne({
       where: { slug },
       include: [
-        { model: User, as: "author", attributes: ["id", "email"] },
+        { model: User, as: "author", attributes: ["id", "username"] },
         { model: Category, attributes: ["id", "name", "slug"] },
         {
           model: Tag,

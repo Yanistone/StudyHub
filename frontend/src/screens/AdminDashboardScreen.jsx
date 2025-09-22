@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 // import { createProposal } from "../api/proposals";
 import api from "../api/client";
+import Toast from "../components/Toast";
 
 export default function AdminDashboardScreen() {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [msg, setMsg] = useState("");
+  const [showToast, setShowToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState("");
 
   useEffect(() => {
     document.title = "StudyHub | Admin";
@@ -19,7 +21,8 @@ export default function AdminDashboardScreen() {
       setItems(data);
     } catch (e) {
       console.error(e);
-      setMsg(e?.response?.data?.error || "Erreur de chargement");
+      setToastMessage(e?.response?.data?.error || "Erreur de chargement");
+      setShowToast(true);
     } finally {
       setLoading(false);
     }
@@ -28,18 +31,51 @@ export default function AdminDashboardScreen() {
   async function review(id, decision) {
     try {
       await api.post(`/proposals/${id}/review`, { decision });
-      setMsg(`Proposition ${id} ${decision}`);
+      const proposal = items.find((p) => p.id === id);
+
+      // Déterminer le nom de la proposition
+      let proposalName = "";
+      if (proposal) {
+        if (proposal.type === "NEW") {
+          proposalName = JSON.parse(proposal.payloadJson).title;
+        } else {
+          // Pour les modifications, utiliser le titre de l'article ciblé
+          proposalName = proposal.Article?.title || `Modification #${id}`;
+        }
+      }
+
+      const message =
+        decision === "APPROVED"
+          ? `Proposition "${proposalName}" approuvée avec succès`
+          : `Proposition "${proposalName}" rejetée`;
+
+      setToastMessage(message);
+      setShowToast(true);
       load();
     } catch (e) {
       console.error(e);
-      setMsg(e?.response?.data?.error || "Erreur review");
+      setToastMessage(e?.response?.data?.error || "Erreur lors de la révision");
+      setShowToast(true);
     }
   }
 
   return (
     <section>
+      {showToast && (
+        <Toast
+          title={
+            toastMessage.includes("approuvée")
+              ? "Succès"
+              : toastMessage.includes("rejetée")
+              ? "Information"
+              : "Erreur"
+          }
+          message={toastMessage}
+          duration={5000}
+          onClose={() => setShowToast(false)}
+        />
+      )}
       <h1>Dashboard</h1>
-      {msg && <div style={{ color: "#9ca3af", marginBottom: 10 }}>{msg}</div>}
       {loading ? (
         <p>Chargement…</p>
       ) : items.length === 0 ? (

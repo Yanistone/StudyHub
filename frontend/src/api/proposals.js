@@ -10,3 +10,8 @@ export async function createProposal({ type, targetArticleId, payloadJson }) {
   });
   return data;
 }
+
+export async function listUserProposals() {
+  const { data } = await api.get("/proposals/my");
+  return data;
+}

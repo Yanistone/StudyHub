@@ -1,8 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { useLocation, useNavigate, Link } from "react-router-dom";
 
-const API_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:4000";
-
 export default function LoginScreen() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -10,7 +8,7 @@ export default function LoginScreen() {
     () => location.state?.from?.pathname || "/",
     [location.state]
   );
-  const [mode, setMode] = useState("login"); // 'login' | 'register'
+  const [mode, setMode] = useState("login");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -38,15 +36,18 @@ export default function LoginScreen() {
           : {
               email,
               password,
-              displayName: displayName || email.split("@")[0],
+              displayName,
             };
 
-      const res = await fetch(`${API_URL}/api${endpoint}`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
-        body: JSON.stringify(body),
-      });
+      const res = await fetch(
+        `${import.meta.env.VITE_API_BASE_URL}/api${endpoint}`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+          body: JSON.stringify(body),
+        }
+      );
 
       if (!res.ok) {
         const txt = await res.text();
@@ -54,15 +55,11 @@ export default function LoginScreen() {
       }
 
       const data = await res.json();
-      // Attendu : { token: "..." } côté API
       const token = data?.token;
-      if (!token) {
-        // Mode démo si l'API ne renvoie pas encore de token
-        // (À retirer une fois l'API prête)
-        localStorage.setItem("authToken", "dev-token");
-      } else {
-        localStorage.setItem("authToken", token);
-      }
+      localStorage.setItem("authToken", token);
+
+      // Indiquer que l'utilisateur vient de se connecter
+      localStorage.setItem("justLoggedIn", "true");
 
       navigate(from, { replace: true });
     } catch (err) {
@@ -70,12 +67,6 @@ export default function LoginScreen() {
     } finally {
       setLoading(false);
     }
-  };
-
-  // Petit bouton de secours pour bosser le front sans API prête
-  const useDemoToken = () => {
-    localStorage.setItem("authToken", "dev-token");
-    navigate(from, { replace: true });
   };
 
   return (

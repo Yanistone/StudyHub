@@ -1,14 +1,21 @@
 import api from "./client";
 
-export async function listArticles({ q, categoryId, tag } = {}) {
+export async function listArticles({ q, categoryId, tag, authorId } = {}) {
   const { data } = await api.get("/articles", {
-    params: { q, categoryId, tag },
+    params: { q, categoryId, tag, authorId },
   });
   return data;
 }
 
 export async function getArticleBySlug(slug) {
   const { data } = await api.get(`/articles/${slug}`);
+  return data;
+}
+
+export async function listUserArticles(userId) {
+  const { data } = await api.get("/articles", {
+    params: { authorId: userId },
+  });
   return data;
 }
 

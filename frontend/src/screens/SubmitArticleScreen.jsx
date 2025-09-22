@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { createProposal } from "../api/proposals";
 import Select from "../components/Select.jsx";
+import Toast from "../components/Toast.jsx";
 
 export default function SubmitArticleScreen() {
   useEffect(() => {
@@ -12,7 +13,9 @@ export default function SubmitArticleScreen() {
   const [content, setContent] = useState("");
   const [categoryId, setCategoryId] = useState("");
   const [loading, setLoading] = useState(false);
-  const [msg, setMsg] = useState("");
+  const [showToast, setShowToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState("");
+  const [toastType, setToastType] = useState("success");
 
   const categoryOptions = [
     { value: "dev", label: "Développement" },
@@ -22,7 +25,6 @@ export default function SubmitArticleScreen() {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    setMsg("");
     setLoading(true);
     try {
       const payloadJson = {
@@ -32,14 +34,23 @@ export default function SubmitArticleScreen() {
         categoryId: categoryId ? Number(categoryId) : null,
       };
       await createProposal({ type: "NEW", payloadJson });
-      setMsg("✅ Proposition envoyée, en attente de validation.");
+
+      setToastType("success");
+      setToastMessage("Proposition envoyée, en attente de validation.");
+      setShowToast(true);
+
+      // Réinitialiser le formulaire
       setTitle("");
       setSummary("");
       setContent("");
       setCategoryId("");
     } catch (e) {
       console.error(e);
-      setMsg("❌ " + (e?.response?.data?.error || "Erreur"));
+      setToastType("error");
+      setToastMessage(
+        e?.response?.data?.error || "Erreur lors de l'envoi de la proposition"
+      );
+      setShowToast(true);
     } finally {
       setLoading(false);
     }
@@ -47,6 +58,14 @@ export default function SubmitArticleScreen() {
 
   return (
     <section style={styles.wrapper}>
+      {showToast && (
+        <Toast
+          title={toastType === "success" ? "Succès" : "Erreur"}
+          message={toastMessage}
+          duration={5000}
+          onClose={() => setShowToast(false)}
+        />
+      )}
       <h1 style={styles.title}>Proposer une fiche</h1>
       <form onSubmit={onSubmit} style={styles.form}>
         <input
@@ -80,7 +99,6 @@ export default function SubmitArticleScreen() {
         <button disabled={loading} style={styles.button}>
           {loading ? "Envoi…" : "Soumettre"}
         </button>
-        {msg && <div style={styles.message}>{msg}</div>}
       </form>
     </section>
   );
@@ -98,7 +116,7 @@ const styles = {
   },
   form: {
     display: "grid",
-    gap: 14,
+    gap: 16,
   },
   input: {
     height: 40,
@@ -128,11 +146,5 @@ const styles = {
     fontWeight: 600,
     fontSize: 15,
     cursor: "pointer",
-    transition: "background 0.2s ease",
-  },
-  message: {
-    marginTop: 10,
-    fontSize: 15,
-    color: "#374151",
   },
 };

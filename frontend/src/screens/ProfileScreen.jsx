@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { me } from "../api/auth";
-import api from "../api/client";
+import { listUserArticles } from "../api/articles";
+import { listUserProposals } from "../api/proposals";
 
 export default function ProfileScreen() {
   useEffect(() => {
@@ -27,20 +28,16 @@ export default function ProfileScreen() {
         // Récupérer les informations de l'utilisateur
         const user = await me();
 
-        // Récupérer les propositions de l'utilisateur
-        const { data: proposals } = await api.get("/proposals", {
-          params: { submittedBy: user.id },
-        });
-
-        // Récupérer les articles de l'utilisateur
-        const { data: articles } = await api.get("/articles", {
-          params: { authorId: user.id },
-        });
+        // Récupérer les propositions et articles de l'utilisateur
+        const [proposals, articles] = await Promise.all([
+          listUserProposals(),
+          listUserArticles(user.id),
+        ]);
 
         // Mettre à jour les données utilisateur
         setUserData({
           email: user.email,
-          username: user.username || user.email.split("@")[0],
+          username: user.username,
           role: user.role,
           articles: articles || [],
           proposals: proposals || [],
@@ -139,7 +136,7 @@ export default function ProfileScreen() {
             <div key={proposal.id} style={styles.listItem}>
               <span>
                 {proposal.type === "NEW"
-                  ? "Nouvelle fiche"
+                  ? JSON.parse(proposal.payloadJson).title
                   : proposal.Article?.title || `Modification #${proposal.id}`}
               </span>
               <span

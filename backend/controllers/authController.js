@@ -59,7 +59,7 @@ exports.login = async (req, res, next) => {
 exports.me = async (req, res, next) => {
   try {
     const user = await User.findByPk(req.user.id, {
-      attributes: ["id", "email", "role", "isActive", "createdAt"],
+      attributes: ["id", "email", "username", "role", "isActive", "createdAt"],
     });
     res.json(user);
   } catch (e) {

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getArticleBySlug } from "../api/articles";
 import { listCommentsByArticle, addComment } from "../api/comments";
+import Toast from "../components/Toast";
 
 export default function ArticleDetailScreen() {
   const { slug } = useParams();
@@ -9,6 +10,7 @@ export default function ArticleDetailScreen() {
   const [comments, setComments] = useState([]);
   const [content, setContent] = useState("");
   const [loading, setLoading] = useState(true);
+  const [showLoginToast, setShowLoginToast] = useState(false);
 
   useEffect(() => {
     document.title = `StudyHub | ${
@@ -37,6 +39,14 @@ export default function ArticleDetailScreen() {
   const onSubmit = async (e) => {
     e.preventDefault();
     if (!content.trim()) return;
+
+    // Vérifier si l'utilisateur est connecté
+    const token = localStorage.getItem("authToken");
+    if (!token) {
+      setShowLoginToast(true);
+      return;
+    }
+
     try {
       await addComment(article.id, content.trim());
       setContent("");
@@ -52,9 +62,18 @@ export default function ArticleDetailScreen() {
 
   return (
     <section>
+      {showLoginToast && (
+        <Toast
+          title="Connexion requise"
+          message="Vous devez être connecté pour publier un commentaire"
+          duration={5000}
+          onClose={() => setShowLoginToast(false)}
+        />
+      )}
+
       <h1>{article.title}</h1>
       <div style={{ color: "#9ca3af", fontSize: 14 }}>
-        {article?.category?.name} · {article?.author?.email}
+        {article?.category?.name} · {article?.author?.username}
       </div>
       {article.summary && <p style={{ marginTop: 6 }}>{article.summary}</p>}
       {article.content && (
@@ -116,7 +135,19 @@ export default function ArticleDetailScreen() {
             color: "#fff",
           }}
         />
-        <button type="submit" style={{ height: 38, borderRadius: 8, backgroundColor: "#111827", color: "#fff", border: "none", padding: "0 12px", fontWeight: 600, cursor: "pointer" }}>
+        <button
+          type="submit"
+          style={{
+            height: 38,
+            borderRadius: 8,
+            backgroundColor: "#111827",
+            color: "#fff",
+            border: "none",
+            padding: "0 12px",
+            fontWeight: 600,
+            cursor: "pointer",
+          }}
+        >
           Publier
         </button>
       </form>

@@ -70,7 +70,7 @@ export default function ArticlesListScreen() {
               title={a.title}
               slug={a.slug}
               category={a?.category?.name}
-              author={a?.author?.email}
+              author={a?.author?.username}
               summary={a.summary}
             />
           ))}

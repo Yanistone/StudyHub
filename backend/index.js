@@ -9,6 +9,7 @@ const authRoutes = require("./routes/auth");
 const articleRoutes = require("./routes/articles");
 const proposalRoutes = require("./routes/proposals");
 const commentRoutes = require("./routes/comments");
+const adminRoutes = require("./routes/admin");
 const errorHandler = require("./middleware/errorHandler");
 
 const app = express();
@@ -26,6 +27,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/articles", articleRoutes);
 app.use("/api/proposals", proposalRoutes);
 app.use("/api/comments", commentRoutes);
+app.use("/api/admin", adminRoutes);
 
 // 404
 app.use((req, res) => res.status(404).json({ error: "Not found" }));
@@ -42,7 +44,7 @@ app.get("/health", async (req, res) => {
   }
 });
 
-// Exemple d’API minimal (Articles en lecture seule)
+// Exemple d'API minimal (Articles en lecture seule)
 app.get("/api/articles", async (req, res) => {
   const { Article, User, Category, Tag } = require("./models");
   const items = await Article.findAll({

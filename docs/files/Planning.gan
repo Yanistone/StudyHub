@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?><project name="StudyHub" company="" webLink="" view-date="2025-09-12" view-index="0" gantt-divider-location="541" resource-divider-location="300" version="3.3.3312" locale="fr_FR">
+    <description/>
+    <view zooming-state="default:2" id="gantt-chart">
+        <field id="tpd3" name="Nom" width="386" order="0"/>
+        <field id="tpd4" name="Date de début" width="38" order="1"/>
+        <field id="tpd5" name="Date de fin" width="116" order="2"/>
+        <field id="tpd15" name="Notes" width="20" order="3"/>
+        <option id="filter.completedTasks" value="false"/>
+        <option id="filter.dueTodayTasks" value="false"/>
+        <option id="filter.overdueTasks" value="false"/>
+        <option id="filter.inProgressTodayTasks" value="false"/>
+        <option id="color.recent"><![CDATA[#33cc00 #ff0000 #9933ff #0033ff #ff9900]]></option>
+    </view>
+    <view id="resource-table">
+        <field id="0" name="Nom" width="199" order="0"/>
+        <field id="1" name="Rôle par défaut" width="82" order="1"/>
+    </view>
+    <!-- -->
+    <calendars>
+        <day-types>
+            <day-type id="0"/>
+            <day-type id="1"/>
+            <default-week id="1" name="default" sun="1" mon="0" tue="0" wed="0" thu="0" fri="0" sat="1"/>
+            <only-show-weekends value="false"/>
+            <overriden-day-types/>
+            <days/>
+        </day-types>
+    </calendars>
+    <tasks empty-milestones="true">
+        <taskproperties>
+            <taskproperty id="tpd0" name="type" type="default" valuetype="icon"/>
+            <taskproperty id="tpd1" name="priority" type="default" valuetype="icon"/>
+            <taskproperty id="tpd2" name="info" type="default" valuetype="icon"/>
+            <taskproperty id="tpd3" name="name" type="default" valuetype="text"/>
+            <taskproperty id="tpd4" name="begindate" type="default" valuetype="date"/>
+            <taskproperty id="tpd5" name="enddate" type="default" valuetype="date"/>
+            <taskproperty id="tpd6" name="duration" type="default" valuetype="int"/>
+            <taskproperty id="tpd7" name="completion" type="default" valuetype="int"/>
+            <taskproperty id="tpd8" name="coordinator" type="default" valuetype="text"/>
+            <taskproperty id="tpd9" name="predecessorsr" type="default" valuetype="text"/>
+        </taskproperties>
+        <task id="0" uid="5c2d23d2b5174a7398f77f5f712a2d0c" name="Cahier des charges" color="#0033ff" meeting="false" start="2025-09-15" duration="2" complete="0" expand="true">
+            <depend id="1" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="1" uid="a2dadef6f697421db67c88cdc1a565ab" name="Organisation &amp; planning projet" color="#0033ff" meeting="false" start="2025-09-17" duration="1" complete="0" expand="true">
+            <notes><![CDATA[(Trello, Gantt, répartition des rôles)]]></notes>
+            <depend id="2" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="2" uid="10a58e02cb93426e894ed492341bdb3e" name="Mise en place du dépôt Git + conventions" color="#ff0000" meeting="false" start="2025-09-18" duration="1" complete="0" expand="true">
+            <notes><![CDATA[(Git, ESLint, PrettierD)]]></notes>
+            <depend id="3" type="2" difference="0" hardness="Strong"/>
+            <depend id="4" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="3" uid="61912ce7df4d409e8e22e418a9f63bd6" name="Setup environnement backend" color="#ff0000" meeting="false" start="2025-09-19" duration="2" complete="0" expand="true">
+            <notes><![CDATA[(Node.js, Express, Sequelize, config MySQL)]]></notes>
+            <depend id="6" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="4" uid="06a0281272fd4026b1ca0fce8f2ad737" name="Setup environnement frontend" color="#ff0000" meeting="false" start="2025-09-19" duration="2" complete="0" expand="true">
+            <notes><![CDATA[(React Vite, Router, Axios, structure)]]></notes>
+            <depend id="9" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="6" uid="f9598a2e97564eb5935d0095f9e54c41" name="Modélisation base de données + migrations Sequelize" color="#ff0000" meeting="false" start="2025-09-23" duration="2" complete="0" expand="true">
+            <notes><![CDATA[Création de la base de donnée avec Sequelize (Création, Migration, Seeder)]]></notes>
+            <depend id="7" type="2" difference="0" hardness="Strong"/>
+            <depend id="8" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="7" uid="1af343aeb53142d4b2bd65244a841ed6" name="Développement backend : Authentification" color="#ff0000" meeting="false" start="2025-09-25" duration="2" complete="0" expand="true">
+            <notes><![CDATA[(register/login, JWT)]]></notes>
+            <depend id="10" type="2" difference="0" hardness="Strong"/>
+            <depend id="12" type="2" difference="0" hardness="Strong"/>
+            <depend id="17" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="8" uid="a6313c5ce9f94c30a5723df391bdc67a" name="Développement backend : Articles" color="#ff0000" meeting="false" start="2025-09-25" duration="2" complete="0" expand="true">
+            <notes><![CDATA[(CRUD minimal)]]></notes>
+            <depend id="12" type="2" difference="0" hardness="Strong"/>
+            <depend id="13" type="2" difference="0" hardness="Strong"/>
+            <depend id="14" type="2" difference="0" hardness="Strong"/>
+            <depend id="17" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="9" uid="f168b2be3be44eeb8f6f64190c20ac42" name="Développement frontend : Layout" color="#33cc00" meeting="false" start="2025-09-23" duration="2" complete="0" expand="true">
+            <notes><![CDATA[(Navbar, Sidebar, ProtectedRoutes)]]></notes>
+            <depend id="10" type="2" difference="0" hardness="Strong"/>
+            <depend id="22" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="22" uid="4fbf1475f399473f99d620ada13e67d2" name="Frontend : Création des components" color="#33cc00" meeting="false" start="2025-09-25" duration="2" complete="0" expand="true">
+            <notes><![CDATA[Button.jsx
+Card.jsx
+Select.jsx]]></notes>
+            <depend id="10" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="10" uid="bb531e76937540b9855005aacad47115" name="Frontend : Pages de base" color="#33cc00" meeting="false" start="2025-09-29" duration="3" complete="0" expand="true">
+            <notes><![CDATA[(HomeScreen, LoginScreen, ArticleScreen, ArticleDetailScreen)]]></notes>
+        </task>
+        <task id="12" uid="8fb469e1f7ba40c99834f01bc55f2351" name="Backend : Proposals" color="#ff0000" meeting="false" start="2025-09-29" duration="3" complete="0" expand="true">
+            <notes><![CDATA[(soumettre NEW/EDIT, review MOD/ADMIN)]]></notes>
+            <depend id="15" type="2" difference="0" hardness="Strong"/>
+            <depend id="16" type="2" difference="0" hardness="Strong"/>
+            <depend id="17" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="13" uid="cdaeaa5dec704281914355c9cd4ed5a1" name="Backend : Comments" color="#ff9900" meeting="false" start="2025-09-29" duration="2" complete="0" expand="true">
+            <notes><![CDATA[(ajout, modération)]]></notes>
+            <depend id="14" type="2" difference="0" hardness="Strong"/>
+            <depend id="17" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="14" uid="3adf0384470f4bebb4650fc7e73d89fd" name="Frontend : ArticlesListScreen + ArticleDetailScreen" color="#33cc00" meeting="false" start="2025-10-01" duration="3" complete="0" expand="true">
+            <notes><![CDATA[(avec commentaires)]]></notes>
+            <depend id="18" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="15" uid="fe49507780164884a8727a5d40e99149" name="Frontend : SubmitArticleScreen" color="#33cc00" meeting="false" start="2025-10-02" duration="2" complete="0" expand="true">
+            <depend id="18" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="16" uid="904b59695e874ea5affb6701d98e5edd" name="Frontend : AdminDashboardScreen" color="#ff9900" meeting="false" start="2025-10-02" duration="2" complete="0" expand="true">
+            <notes><![CDATA[(review propositions)]]></notes>
+            <depend id="18" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="17" uid="fb95727f78b7437e8c0f5da64aba8c6a" name="Tests backend" color="#9933ff" meeting="false" start="2025-10-02" duration="3" complete="0" expand="true">
+            <notes><![CDATA[(Postman, Jest) sur Auth, Articles, Proposals, Comments]]></notes>
+            <depend id="19" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="18" uid="76d6c95fbe1846ddb77bd6734bb4262e" name="Tests frontend" color="#33cc00" meeting="false" start="2025-10-06" duration="3" complete="0" expand="true">
+            <notes><![CDATA[(navigation, formulaires, API calls)]]></notes>
+            <depend id="19" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="19" uid="eedc670caf1744fc9ff5fea105d07aca" name="Documentation technique" color="#ff0000" meeting="false" start="2025-10-09" duration="2" complete="0" expand="true">
+            <notes><![CDATA[(API endpoints, schéma BDD, guide d’install)]]></notes>
+            <depend id="20" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="20" uid="18cec3eb4c4f474b957c7f62e3585f8e" name="Documentation projet + soutenance" color="#0033ff" meeting="false" start="2025-10-13" duration="2" complete="0" expand="true">
+            <notes><![CDATA[(slides, rapport final)]]></notes>
+            <depend id="21" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="21" uid="912501808aba4ebda4ba15f2265f19ac" name="Livraison &amp; Démo finale" color="#9933ff" meeting="false" start="2025-10-15" duration="1" complete="0" expand="true"/>
+    </tasks>
+    <resources>
+        <resource id="0" name="Ilian" function="Default:1" contacts="" phone=""/>
+        <resource id="2" name="Yanis" function="1" contacts="" phone=""/>
+        <resource id="3" name="Lucas" function="2" contacts="" phone=""/>
+        <resource id="4" name="Morgane" function="3" contacts="" phone=""/>
+    </resources>
+    <allocations>
+        <allocation task-id="20" resource-id="0" function="Default:1" responsible="true" load="100.0"/>
+        <allocation task-id="21" resource-id="0" function="Default:1" responsible="true" load="100.0"/>
+        <allocation task-id="0" resource-id="0" function="Default:1" responsible="true" load="100.0"/>
+        <allocation task-id="1" resource-id="0" function="Default:1" responsible="true" load="100.0"/>
+        <allocation task-id="19" resource-id="0" function="Default:1" responsible="false" load="100.0"/>
+        <allocation task-id="6" resource-id="2" function="1" responsible="true" load="100.0"/>
+        <allocation task-id="7" resource-id="2" function="1" responsible="true" load="100.0"/>
+        <allocation task-id="8" resource-id="2" function="1" responsible="true" load="100.0"/>
+        <allocation task-id="12" resource-id="2" function="1" responsible="true" load="100.0"/>
+        <allocation task-id="17" resource-id="2" function="1" responsible="true" load="100.0"/>
+        <allocation task-id="18" resource-id="2" function="1" responsible="false" load="100.0"/>
+        <allocation task-id="19" resource-id="2" function="1" responsible="true" load="100.0"/>
+        <allocation task-id="21" resource-id="2" function="1" responsible="true" load="100.0"/>
+        <allocation task-id="2" resource-id="2" function="1" responsible="true" load="100.0"/>
+        <allocation task-id="4" resource-id="2" function="1" responsible="true" load="100.0"/>
+        <allocation task-id="3" resource-id="2" function="1" responsible="true" load="100.0"/>
+        <allocation task-id="10" resource-id="3" function="2" responsible="true" load="100.0"/>
+        <allocation task-id="14" resource-id="3" function="2" responsible="true" load="100.0"/>
+        <allocation task-id="15" resource-id="3" function="2" responsible="true" load="100.0"/>
+        <allocation task-id="17" resource-id="3" function="2" responsible="false" load="100.0"/>
+        <allocation task-id="18" resource-id="3" function="2" responsible="true" load="100.0"/>
+        <allocation task-id="21" resource-id="3" function="2" responsible="true" load="100.0"/>
+        <allocation task-id="19" resource-id="3" function="2" responsible="false" load="100.0"/>
+        <allocation task-id="9" resource-id="4" function="3" responsible="true" load="100.0"/>
+        <allocation task-id="13" resource-id="4" function="3" responsible="true" load="100.0"/>
+        <allocation task-id="16" resource-id="4" function="3" responsible="true" load="100.0"/>
+        <allocation task-id="21" resource-id="4" function="3" responsible="true" load="100.0"/>
+        <allocation task-id="19" resource-id="4" function="3" responsible="false" load="100.0"/>
+    </allocations>
+    <vacations/>
+    <previous/>
+    <roles roleset-name="Default"/>
+    <roles>
+        <role id="1" name="Lead Développeur"/>
+        <role id="2" name="Développeur 1"/>
+        <role id="3" name="Développeur 2"/>
+    </roles>
+</project>

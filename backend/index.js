@@ -61,4 +61,4 @@ app.get("/api/articles", async (req, res) => {
 });
 
 const port = process.env.PORT;
-app.listen(port, () => console.log(`API on http://localhost:${port}`));
+app.listen(port, () => console.log(`🚀 API on http://localhost:${port}`));

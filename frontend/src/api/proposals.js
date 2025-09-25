@@ -1,17 +1,16 @@
 import api from "./client";
 
-export async function createProposal({ type, targetArticleId, payloadJson }) {
-  const payload =
-    typeof payloadJson === "string" ? payloadJson : JSON.stringify(payloadJson);
-  const { data } = await api.post("/proposals", {
-    type,
-    targetArticleId,
-    payloadJson: payload,
-  });
-  return data;
+export async function createProposal(data) {
+  const response = await api.post("/proposals", data);
+  return response.data;
 }
 
 export async function listUserProposals() {
-  const { data } = await api.get("/proposals/my");
-  return data;
+  const response = await api.get("/proposals/my");
+  return response.data;
+}
+
+export async function reviewProposal(id, data) {
+  const response = await api.put(`/proposals/${id}/review`, data);
+  return response.data;
 }

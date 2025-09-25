@@ -1,21 +1,43 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { getArticleBySlug } from "../api/articles";
 import { listCommentsByArticle, addComment } from "../api/comments";
+import { me } from "../api/auth";
 import Toast from "../components/Toast";
+import Button from "../components/Button";
 
 export default function ArticleDetailScreen() {
   const { slug } = useParams();
+  const navigate = useNavigate();
   const [article, setArticle] = useState(null);
   const [comments, setComments] = useState([]);
   const [content, setContent] = useState("");
   const [loading, setLoading] = useState(true);
   const [showLoginToast, setShowLoginToast] = useState(false);
+  const [currentUser, setCurrentUser] = useState(null);
 
   useEffect(() => {
     document.title = `StudyHub | ${
       slug.charAt(0).toUpperCase() + slug.slice(1)
     }`;
+
+    // Récupérer l'utilisateur connecté
+    const fetchCurrentUser = async () => {
+      const token = localStorage.getItem("authToken");
+      if (token) {
+        try {
+          const userData = await me();
+          setCurrentUser(userData);
+        } catch (error) {
+          console.error(
+            "Erreur lors de la récupération de l'utilisateur:",
+            error
+          );
+        }
+      }
+    };
+
+    fetchCurrentUser();
   }, [slug]);
 
   async function load() {
@@ -57,15 +79,35 @@ export default function ArticleDetailScreen() {
     }
   };
 
+  const handleProposeEdit = () => {
+    // Vérifier si l'utilisateur est connecté
+    const token = localStorage.getItem("authToken");
+    if (!token) {
+      setShowLoginToast(true);
+      return;
+    }
+
+    // Rediriger vers la page de modification avec l'ID de l'article
+    navigate(`/articles/edit/${article.id}`, {
+      state: {
+        article: article,
+      },
+    });
+  };
+
   if (loading) return <p>Chargement…</p>;
   if (!article) return <p>Introuvable.</p>;
+
+  // Vérifier si l'utilisateur connecté n'est pas l'auteur de l'article
+  const isNotAuthor =
+    currentUser && article.author && currentUser.id !== article.author.id;
 
   return (
     <section>
       {showLoginToast && (
         <Toast
           title="Connexion requise"
-          message="Vous devez être connecté pour publier un commentaire"
+          message="Vous devez être connecté pour effectuer cette action"
           duration={5000}
           onClose={() => setShowLoginToast(false)}
         />
@@ -79,6 +121,17 @@ export default function ArticleDetailScreen() {
       {article.content && (
         <div style={{ marginTop: 12, whiteSpace: "pre-wrap" }}>
           {article.content}
+        </div>
+      )}
+
+      {/* Bouton de proposition de modification */}
+      {isNotAuthor && (
+        <div style={{ marginTop: 20 }}>
+          <Button
+            label="Proposer une modification"
+            onClick={handleProposeEdit}
+            color="#111827"
+          />
         </div>
       )}
 

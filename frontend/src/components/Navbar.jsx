@@ -1,10 +1,19 @@
+import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { IoPerson } from "react-icons/io5";
+import { useUser } from "../contexts/UserContext";
 import Dropdown from "./Dropdown";
 
 export default function Navbar({ onToggleSidebar, isSidebarOpen, isMobile }) {
   const navigate = useNavigate();
   const isAuthed = !!localStorage.getItem("authToken");
+  const { userData, fetchUserData } = useUser();
+
+  useEffect(() => {
+    if (isAuthed && !userData) {
+      fetchUserData();
+    }
+  }, [isAuthed, userData, fetchUserData]);
 
   const handleLogout = () => {
     localStorage.removeItem("authToken");
@@ -37,6 +46,34 @@ export default function Navbar({ onToggleSidebar, isSidebarOpen, isMobile }) {
       </div>
 
       <div className="sh-nav-right">
+        {isAuthed && userData && (
+          <div
+            style={{
+              marginRight: "15px",
+              display: "flex",
+              alignItems: "center",
+            }}
+          >
+            <div
+              style={{
+                backgroundColor: "#111827",
+                color: "#fff",
+                borderRadius: "50%",
+                width: "30px",
+                height: "30px",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                fontSize: "14px",
+                fontWeight: "bold",
+              }}
+            >
+              {userData.points || 0}
+            </div>
+            <span style={{ fontSize: "14px" }}>points</span>
+          </div>
+        )}
+
         {isAuthed ? (
           <Dropdown
             trigger={
@@ -49,14 +86,22 @@ export default function Navbar({ onToggleSidebar, isSidebarOpen, isMobile }) {
                   alignItems: "center",
                 }}
               >
-                <IoPerson size={24} color="#e5e7eb" />
+                <IoPerson size={24} />
               </button>
             }
             items={dropdownItems}
           />
         ) : (
-          <Link className="sh-link" to="/login">
-            Se connecter
+          <Link
+            to="/login"
+            style={{
+              textDecoration: "none",
+              color: "inherit",
+              display: "flex",
+              alignItems: "center",
+            }}
+          >
+            <IoPerson size={24} />
           </Link>
         )}
       </div>

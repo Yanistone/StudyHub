@@ -1,4 +1,5 @@
 const { Proposal, Article, User, sequelize } = require("../models");
+const { POINTS, addPoints } = require("../utils/pointsManager");
 
 exports.create = async (req, res, next) => {
   try {
@@ -23,25 +24,10 @@ exports.create = async (req, res, next) => {
       status: "PENDING",
     });
 
-    res.status(201).json(prop);
-  } catch (e) {
-    next(e);
-  }
-};
+    // Attribuer des points pour la création d'une proposition
+    await addPoints(req.user.id, POINTS.CREATE_PROPOSAL);
 
-exports.list = async (req, res, next) => {
-  try {
-    const { status = "PENDING" } = req.query || {};
-    const items = await Proposal.findAll({
-      where: { status },
-      include: [
-        { model: User, as: "submitter", attributes: ["id", "email"] },
-        { model: User, as: "reviewer", attributes: ["id", "email"] },
-        { model: Article, attributes: ["id", "title", "slug"] },
-      ],
-      order: [["createdAt", "ASC"]],
-    });
-    res.json(items);
+    res.status(201).json(prop);
   } catch (e) {
     next(e);
   }
@@ -74,6 +60,9 @@ exports.review = async (req, res, next) => {
 
     // Application si APPROVED
     if (decision === "APPROVED") {
+      // Attribuer des points pour l'approbation d'une proposition
+      await addPoints(prop.submittedBy, POINTS.PROPOSAL_APPROVED);
+
       const payload = JSON.parse(prop.payloadJson);
       if (prop.type === "NEW") {
         // créer un nouvel Article (status PUBLISHED par défaut)
@@ -103,10 +92,13 @@ exports.review = async (req, res, next) => {
           await t.rollback();
           return res.status(404).json({ error: "Target article not found" });
         }
-        // Met à jour uniquement les champs présents
-        ["title", "summary", "content", "categoryId"].forEach((k) => {
-          if (payload[k] !== undefined) art[k] = payload[k];
-        });
+
+        // Mettre à jour l'article avec les nouvelles données
+        art.title = payload.title || art.title;
+        art.summary =
+          payload.summary !== undefined ? payload.summary : art.summary;
+        art.content = payload.content || art.content;
+        art.categoryId = payload.categoryId || art.categoryId;
         await art.save({ transaction: t });
       }
     }
@@ -115,6 +107,23 @@ exports.review = async (req, res, next) => {
     res.json(prop);
   } catch (e) {
     await t.rollback();
+    next(e);
+  }
+};
+exports.list = async (req, res, next) => {
+  try {
+    const { status = "PENDING" } = req.query || {};
+    const items = await Proposal.findAll({
+      where: { status },
+      include: [
+        { model: User, as: "submitter", attributes: ["id", "email"] },
+        { model: User, as: "reviewer", attributes: ["id", "email"] },
+        { model: Article, attributes: ["id", "title", "slug"] },
+      ],
+      order: [["createdAt", "ASC"]],
+    });
+    res.json(items);
+  } catch (e) {
     next(e);
   }
 };

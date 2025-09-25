@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import api from "../api/client";
 import Toast from "../components/Toast";
 import Button from "../components/Button";
+import { useUser } from "../contexts/UserContext";
 
 export default function AdminDashboardScreen() {
   const [items, setItems] = useState([]);
@@ -12,6 +13,7 @@ export default function AdminDashboardScreen() {
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
   const [activeTab, setActiveTab] = useState("proposals");
+  const { fetchUserData } = useUser();
 
   useEffect(() => {
     document.title = "StudyHub | Admin";
@@ -109,6 +111,31 @@ export default function AdminDashboardScreen() {
       console.error(e);
       setToastMessage(
         e?.response?.data?.error || "Erreur lors de la mise à jour du statut"
+      );
+      setShowToast(true);
+    }
+  }
+
+  async function reviewProposal(id, decision, reviewComment = "") {
+    try {
+      await api.put(`/proposals/${id}/review`, { decision, reviewComment });
+      setToastMessage(
+        decision === "APPROVED"
+          ? "Proposition approuvée avec succès"
+          : "Proposition rejetée"
+      );
+      setShowToast(true);
+
+      // Mettre à jour les données utilisateur pour récupérer les nouveaux points
+      fetchUserData();
+
+      // Recharger les propositions
+      load();
+    } catch (e) {
+      console.error(e);
+      setToastMessage(
+        e?.response?.data?.error ||
+          "Erreur lors de la révision de la proposition"
       );
       setShowToast(true);
     }

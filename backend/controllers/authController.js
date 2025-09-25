@@ -22,12 +22,18 @@ exports.register = async (req, res, next) => {
       passwordHash: hash,
       role: "USER",
       isActive: true,
+      points: 0,
     });
 
     const token = sign(user);
     res.status(201).json({
       token,
-      user: { id: user.id, email: user.email, role: user.role },
+      user: {
+        id: user.id,
+        email: user.email,
+        role: user.role,
+        points: user.points,
+      },
     });
   } catch (e) {
     next(e);
@@ -49,7 +55,12 @@ exports.login = async (req, res, next) => {
     const token = sign(user);
     res.json({
       token,
-      user: { id: user.id, email: user.email, role: user.role },
+      user: {
+        id: user.id,
+        email: user.email,
+        role: user.role,
+        points: user.points,
+      },
     });
   } catch (e) {
     next(e);
@@ -59,7 +70,15 @@ exports.login = async (req, res, next) => {
 exports.me = async (req, res, next) => {
   try {
     const user = await User.findByPk(req.user.id, {
-      attributes: ["id", "email", "username", "role", "isActive", "createdAt"],
+      attributes: [
+        "id",
+        "email",
+        "username",
+        "role",
+        "isActive",
+        "createdAt",
+        "points",
+      ],
     });
     res.json(user);
   } catch (e) {

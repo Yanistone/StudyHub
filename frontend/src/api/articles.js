@@ -12,6 +12,11 @@ export async function getArticleBySlug(slug) {
   return data;
 }
 
+export async function getArticleById(id) {
+  const { data } = await api.get(`/articles/edit/${id}`);
+  return data;
+}
+
 export async function listUserArticles(userId) {
   const { data } = await api.get("/articles", {
     params: { authorId: userId },

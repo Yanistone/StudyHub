@@ -4,7 +4,15 @@ const { User } = require("../models");
 exports.getUsers = async (req, res, next) => {
   try {
     const users = await User.findAll({
-      attributes: ["id", "email", "username", "role", "isActive", "createdAt"],
+      attributes: [
+        "id",
+        "email",
+        "username",
+        "role",
+        "isActive",
+        "createdAt",
+        "points",
+      ],
       order: [["id", "ASC"]],
     });
     res.json(users);

@@ -1,12 +1,14 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import ProtectedRoutes from "./routes/ProtectedRoutes";
 import Layout from "./components/Layout.jsx";
+import { UserProvider } from "./contexts/UserContext.jsx";
 
 import HomeScreen from "./screens/HomeScreen.jsx";
 import LoginScreen from "./screens/LoginScreen.jsx";
 import ArticlesListScreen from "./screens/ArticlesListScreen.jsx";
 import ArticleDetailScreen from "./screens/ArticleDetailScreen.jsx";
 import SubmitArticleScreen from "./screens/SubmitArticleScreen.jsx";
+import EditArticleScreen from "./screens/EditArticleScreen.jsx";
 import AdminDashboardScreen from "./screens/AdminDashboardScreen.jsx";
 import ProfileScreen from "./screens/ProfileScreen.jsx";
 
@@ -20,28 +22,34 @@ function AppShell({ children }) {
 
 export default function App() {
   return (
-    <BrowserRouter>
-      <Layout>
-        <AppShell>
-          <Routes>
-            {/* Public */}
-            <Route path="/" element={<HomeScreen />} />
-            <Route path="/login" element={<LoginScreen />} />
-            <Route path="/articles" element={<ArticlesListScreen />} />
-            <Route path="/articles/:slug" element={<ArticleDetailScreen />} />
+    <UserProvider>
+      <BrowserRouter>
+        <Layout>
+          <AppShell>
+            <Routes>
+              {/* Public */}
+              <Route path="/" element={<HomeScreen />} />
+              <Route path="/login" element={<LoginScreen />} />
+              <Route path="/articles" element={<ArticlesListScreen />} />
+              <Route path="/articles/:slug" element={<ArticleDetailScreen />} />
 
-            {/* Protégé */}
-            <Route element={<ProtectedRoutes />}>
-              <Route path="/submit" element={<SubmitArticleScreen />} />
-              <Route path="/admin" element={<AdminDashboardScreen />} />
-              <Route path="/profile" element={<ProfileScreen />} />
-            </Route>
+              {/* Protégé */}
+              <Route element={<ProtectedRoutes />}>
+                <Route path="/submit" element={<SubmitArticleScreen />} />
+                <Route
+                  path="/articles/edit/:id"
+                  element={<EditArticleScreen />}
+                />
+                <Route path="/admin" element={<AdminDashboardScreen />} />
+                <Route path="/profile" element={<ProfileScreen />} />
+              </Route>
 
-            {/* 404 */}
-            <Route path="/" element={<HomeScreen />} />
-          </Routes>
-        </AppShell>
-      </Layout>
-    </BrowserRouter>
+              {/* 404 */}
+              <Route path="/" element={<HomeScreen />} />
+            </Routes>
+          </AppShell>
+        </Layout>
+      </BrowserRouter>
+    </UserProvider>
   );
 }

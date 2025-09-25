@@ -1,19 +1,154 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { me } from "../api/auth";
 import { listUserArticles } from "../api/articles";
 import { listUserProposals } from "../api/proposals";
+import { useUser } from "../contexts/UserContext";
+
+// Définir les styles en premier
+const styles = {
+  wrapper: {
+    padding: 20,
+    paddingTop: 40,
+    maxWidth: 800,
+    margin: "0 auto",
+  },
+  loadingContainer: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    height: "50vh",
+  },
+  errorContainer: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    height: "50vh",
+  },
+  profileHeader: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: 20,
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: "bold",
+    margin: 0,
+  },
+  editButton: {
+    padding: "8px 16px",
+    backgroundColor: "#111827",
+    color: "white",
+    borderRadius: 4,
+    textDecoration: "none",
+    fontSize: 14,
+  },
+  card: {
+    backgroundColor: "white",
+    borderRadius: 8,
+    padding: 20,
+    marginBottom: 30,
+    boxShadow: "0 1px 3px rgba(0,0,0,0.1)",
+  },
+  infoRow: {
+    display: "flex",
+    marginBottom: 10,
+  },
+  label: {
+    fontWeight: "bold",
+    width: 150,
+  },
+  sectionTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginTop: 30,
+    marginBottom: 15,
+  },
+  listContainer: {
+    display: "flex",
+    flexDirection: "column",
+    gap: 10,
+  },
+  listItem: {
+    padding: 15,
+    backgroundColor: "white",
+    borderRadius: 8,
+    boxShadow: "0 1px 3px rgba(0,0,0,0.1)",
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    textDecoration: "none",
+    color: "inherit",
+  },
+  emptyMessage: {
+    color: "#6b7280",
+    fontStyle: "italic",
+  },
+  badge: {
+    padding: "4px 8px",
+    borderRadius: 4,
+    fontSize: 12,
+    fontWeight: "bold",
+  },
+  badgeSuccess: {
+    backgroundColor: "#d1fae5",
+    color: "#065f46",
+  },
+  badgeDanger: {
+    backgroundColor: "#fee2e2",
+    color: "#b91c1c",
+  },
+  badgeWarning: {
+    backgroundColor: "#fef3c7",
+    color: "#92400e",
+  },
+  button: {
+    padding: "8px 16px",
+    backgroundColor: "#111827",
+    color: "white",
+    border: "none",
+    borderRadius: 4,
+    cursor: "pointer",
+    marginTop: 10,
+  },
+  section: {
+    marginTop: 30,
+  },
+  pointsContainer: {
+    display: "flex",
+    alignItems: "center",
+    gap: "15px",
+    marginTop: "10px",
+  },
+  pointsBadge: {
+    backgroundColor: "#111827",
+    color: "#fff",
+    borderRadius: "50%",
+    width: "70px",
+    height: "60px",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    fontSize: "24px",
+    fontWeight: "bold",
+  },
+  pointsText: {
+    fontSize: "14px",
+    color: "#4b5563",
+  },
+};
 
 export default function ProfileScreen() {
   useEffect(() => {
     document.title = "StudyHub | Mon Profil";
   }, []);
 
-  // État pour stocker les données de l'utilisateur
-  const [userData, setUserData] = useState({
-    email: "",
-    username: "",
-    role: "",
+  // Utiliser le contexte utilisateur
+  const { userData: user, loading: userLoading } = useUser();
+
+  // État pour stocker les données complémentaires
+  const [profileData, setProfileData] = useState({
     articles: [],
     proposals: [],
   });
@@ -23,11 +158,10 @@ export default function ProfileScreen() {
 
   // Chargement des données utilisateur réelles
   useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        // Récupérer les informations de l'utilisateur
-        const user = await me();
+    const fetchProfileData = async () => {
+      if (!user) return;
 
+      try {
         // Récupérer les propositions et articles de l'utilisateur
         const [proposals, articles] = await Promise.all([
           listUserProposals(),
@@ -35,10 +169,7 @@ export default function ProfileScreen() {
         ]);
 
         // Mettre à jour les données utilisateur
-        setUserData({
-          email: user.email,
-          username: user.username,
-          role: user.role,
+        setProfileData({
           articles: articles || [],
           proposals: proposals || [],
         });
@@ -51,10 +182,12 @@ export default function ProfileScreen() {
       }
     };
 
-    fetchUserData();
-  }, []);
+    if (user) {
+      fetchProfileData();
+    }
+  }, [user]);
 
-  if (loading) {
+  if (userLoading || loading) {
     return (
       <section style={styles.wrapper}>
         <div style={styles.loadingContainer}>
@@ -80,6 +213,19 @@ export default function ProfileScreen() {
     );
   }
 
+  if (!user) {
+    return (
+      <section style={styles.wrapper}>
+        <div style={styles.errorContainer}>
+          <p>Vous devez être connecté pour accéder à cette page</p>
+          <Link to="/login" style={styles.button}>
+            Se connecter
+          </Link>
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section style={styles.wrapper}>
       <div style={styles.profileHeader}>
@@ -92,28 +238,41 @@ export default function ProfileScreen() {
       <div style={styles.card}>
         <div style={styles.infoRow}>
           <span style={styles.label}>Email:</span>
-          <span>{userData.email}</span>
+          <span>{user.email}</span>
         </div>
         <div style={styles.infoRow}>
           <span style={styles.label}>Nom d'utilisateur:</span>
-          <span>{userData.username}</span>
+          <span>{user.username}</span>
         </div>
         <div style={styles.infoRow}>
           <span style={styles.label}>Rôle:</span>
           <span>
-            {userData.role === "USER"
+            {user.role === "USER"
               ? "Utilisateur"
-              : userData.role === "MOD"
+              : user.role === "MOD"
               ? "Modérateur"
               : "Administrateur"}
           </span>
         </div>
       </div>
 
+      {/* Section des points de gamification */}
+      <div style={styles.section}>
+        <h2 style={styles.sectionTitle}>Points de gamification</h2>
+        <div style={styles.pointsContainer}>
+          <div style={styles.pointsBadge}>{user.points}</div>
+          <p style={styles.pointsText}>
+            Gagnez des points en créant des fiches (+5), en proposant des
+            modifications (+5) et lorsque vos contributions sont approuvées
+            (+5).
+          </p>
+        </div>
+      </div>
+
       <h2 style={styles.sectionTitle}>Mes Articles</h2>
-      {userData.articles && userData.articles.length > 0 ? (
+      {profileData.articles && profileData.articles.length > 0 ? (
         <div style={styles.listContainer}>
-          {userData.articles.map((article) => (
+          {profileData.articles.map((article) => (
             <Link
               key={article.id}
               to={`/articles/${article.slug}`}
@@ -130,9 +289,9 @@ export default function ProfileScreen() {
       )}
 
       <h2 style={styles.sectionTitle}>Mes Propositions</h2>
-      {userData.proposals && userData.proposals.length > 0 ? (
+      {profileData.proposals && profileData.proposals.length > 0 ? (
         <div style={styles.listContainer}>
-          {userData.proposals.map((proposal) => (
+          {profileData.proposals.map((proposal) => (
             <div key={proposal.id} style={styles.listItem}>
               <span>
                 {proposal.type === "NEW"
@@ -166,129 +325,3 @@ export default function ProfileScreen() {
     </section>
   );
 }
-
-const styles = {
-  wrapper: {
-    padding: 20,
-    paddingTop: 40,
-    maxWidth: 800,
-    margin: "0 auto",
-  },
-  loadingContainer: {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    height: "50vh",
-  },
-  errorContainer: {
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
-    height: "50vh",
-    gap: 20,
-  },
-  profileHeader: {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginBottom: 20,
-  },
-  title: {
-    fontSize: 26,
-    fontWeight: 700,
-    margin: 0,
-  },
-  sectionTitle: {
-    fontSize: 20,
-    fontWeight: 600,
-    marginTop: 30,
-    marginBottom: 15,
-  },
-  card: {
-    background: "#fff",
-    borderRadius: 10,
-    padding: 20,
-    boxShadow: "0 1px 3px rgba(0,0,0,0.1)",
-    marginBottom: 20,
-  },
-  infoRow: {
-    display: "flex",
-    padding: "10px 0",
-    borderBottom: "1px solid #f3f4f6",
-  },
-  label: {
-    fontWeight: 600,
-    width: 150,
-    color: "#4b5563",
-  },
-  listContainer: {
-    display: "flex",
-    flexDirection: "column",
-    gap: 10,
-  },
-  listItem: {
-    padding: 15,
-    background: "#fff",
-    borderRadius: 8,
-    boxShadow: "0 1px 2px rgba(0,0,0,0.05)",
-    textDecoration: "none",
-    color: "#111827",
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
-  badge: {
-    padding: "4px 8px",
-    borderRadius: 4,
-    fontSize: 12,
-    fontWeight: 500,
-  },
-  badgeSuccess: {
-    background: "#d1fae5",
-    color: "#065f46",
-  },
-  badgeWarning: {
-    background: "#fef3c7",
-    color: "#92400e",
-  },
-  badgeDanger: {
-    background: "#fee2e2",
-    color: "#b91c1c",
-  },
-  emptyMessage: {
-    color: "#6b7280",
-    fontStyle: "italic",
-  },
-  actions: {
-    marginTop: 30,
-    display: "flex",
-    justifyContent: "center",
-  },
-  button: {
-    height: 42,
-    borderRadius: 8,
-    border: "none",
-    background: "#111827",
-    color: "#fff",
-    fontWeight: 600,
-    fontSize: 15,
-    cursor: "pointer",
-    transition: "background 0.2s ease",
-    padding: "0 20px",
-    display: "inline-flex",
-    alignItems: "center",
-    justifyContent: "center",
-    textDecoration: "none",
-  },
-  editButton: {
-    padding: "8px 16px",
-    borderRadius: 8,
-    background: "#f3f4f6",
-    color: "#374151",
-    fontWeight: 500,
-    fontSize: 14,
-    textDecoration: "none",
-    transition: "background 0.2s ease",
-  },
-};

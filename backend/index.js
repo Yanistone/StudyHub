@@ -10,6 +10,7 @@ const articleRoutes = require("./routes/articles");
 const proposalRoutes = require("./routes/proposals");
 const commentRoutes = require("./routes/comments");
 const adminRoutes = require("./routes/admin");
+const categoryRoutes = require("./routes/categories");
 const errorHandler = require("./middleware/errorHandler");
 
 const app = express();
@@ -28,6 +29,7 @@ app.use("/api/articles", articleRoutes);
 app.use("/api/proposals", proposalRoutes);
 app.use("/api/comments", commentRoutes);
 app.use("/api/admin", adminRoutes);
+app.use("/api/categories", categoryRoutes);
 
 // 404
 app.use((req, res) => res.status(404).json({ error: "Not found" }));

@@ -1,49 +1,82 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { createProposal } from "../api/proposals";
+import { listCategories } from "../api/categories";
+import { useUser } from "../contexts/UserContext";
 import Select from "../components/Select.jsx";
 import Toast from "../components/Toast.jsx";
 
 export default function SubmitArticleScreen() {
-  useEffect(() => {
-    document.title = "StudyHub | Proposer une fiche";
-  }, []);
-
+  const navigate = useNavigate();
+  const { fetchUserData } = useUser();
   const [title, setTitle] = useState("");
   const [summary, setSummary] = useState("");
   const [content, setContent] = useState("");
-  const [categoryId, setCategoryId] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [categoryName, setCategoryName] = useState("");
+  const [categories, setCategories] = useState([]);
+  const [submitting, setSubmitting] = useState(false);
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
   const [toastType, setToastType] = useState("success");
 
-  const categoryOptions = [
-    { value: "dev", label: "Développement" },
-    { value: "design", label: "Design" },
-    { value: "infra", label: "Infrastructure" },
-  ];
+  useEffect(() => {
+    document.title = "StudyHub | Soumettre un article";
+
+    // Charger les catégories depuis l'API
+    const loadCategories = async () => {
+      try {
+        const data = await listCategories();
+        setCategories(data);
+      } catch (error) {
+        console.error("Erreur lors du chargement des catégories:", error);
+      }
+    };
+
+    loadCategories();
+  }, []);
+
+  // Transformer les catégories en options pour le sélecteur
+  const categoryOptions = categories.map((category) => ({
+    value: category.name,
+    label: category.name,
+  }));
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
+    setSubmitting(true);
+
     try {
+      // Trouver l'ID de la catégorie à partir de son nom
+      const selectedCategory = categories.find(
+        (cat) => cat.name === categoryName
+      );
+      const categoryId = selectedCategory ? selectedCategory.id : null;
+
       const payloadJson = {
         title,
         summary,
         content,
-        categoryId: categoryId ? Number(categoryId) : null,
+        categoryId,
       };
-      await createProposal({ type: "NEW", payloadJson });
+
+      await createProposal({
+        type: "NEW",
+        payloadJson,
+      });
+
+      // Mettre à jour les données utilisateur pour récupérer les nouveaux points
+      fetchUserData();
 
       setToastType("success");
-      setToastMessage("Proposition envoyée, en attente de validation.");
+      setToastMessage(
+        "Proposition d'article envoyée, en attente de validation."
+      );
       setShowToast(true);
 
-      // Réinitialiser le formulaire
-      setTitle("");
-      setSummary("");
-      setContent("");
-      setCategoryId("");
+      // Rediriger vers la page d'accueil après un court délai
+      setTimeout(() => {
+        navigate("/");
+      }, 2000);
     } catch (e) {
       console.error(e);
       setToastType("error");
@@ -52,7 +85,7 @@ export default function SubmitArticleScreen() {
       );
       setShowToast(true);
     } finally {
-      setLoading(false);
+      setSubmitting(false);
     }
   };
 
@@ -91,14 +124,12 @@ export default function SubmitArticleScreen() {
         />
         <Select
           options={categoryOptions}
-          value={categoryId}
-          onChange={(e) => setCategoryId(e.target.value)}
+          value={categoryName}
+          onChange={(e) => setCategoryName(e.target.value)}
           size="small"
           style={{ minWidth: 180 }}
         />
-        <button disabled={loading} style={styles.button}>
-          {loading ? "Envoi…" : "Soumettre"}
-        </button>
+        <button style={styles.button}>Soumettre</button>
       </form>
     </section>
   );

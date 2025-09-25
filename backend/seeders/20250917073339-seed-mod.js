@@ -13,6 +13,7 @@ module.exports = {
         username: "Mod",
         role: "MOD",
         isActive: true,
+        points: 0,
         createdAt: now,
         updatedAt: now,
       },
